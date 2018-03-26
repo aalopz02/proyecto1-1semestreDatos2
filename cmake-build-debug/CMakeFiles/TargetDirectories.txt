@@ -1,0 +1,4 @@
+/home/andres/CLionProjects/TareaCorta/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/andres/CLionProjects/TareaCorta/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/andres/CLionProjects/TareaCorta/cmake-build-debug/CMakeFiles/TareaCorta.dir
+/home/andres/CLionProjects/TareaCorta/cmake-build-debug/CMakeFiles/TareaCorta_autogen.dir
