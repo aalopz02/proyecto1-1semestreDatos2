@@ -1,0 +1,129 @@
+\hypertarget{classm_server}{}\section{m\+Server Class Reference}
+\label{classm_server}\index{m\+Server@{m\+Server}}
+
+
+The \hyperlink{classm_server}{m\+Server} class \+: Clase del servidor para el manejo de la memoria y llama a las clases necesarias.  
+
+
+
+
+{\ttfamily \#include $<$m\+Server.\+h$>$}
+
+
+
+Collaboration diagram for m\+Server\+:
+% FIG 0
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classm_server_a67997f7af71ce2d61cc4cb06592874d8}{obtener\+Cantidad\+Pag} ()
+\begin{DoxyCompactList}\small\item\em obtener\+Cantidad\+Pag \+: Función que retorna el total de paginas creado \end{DoxyCompactList}\item 
+pair$<$ int, int $>$ \hyperlink{classm_server_a027377abae120452312130fe673efa67}{obtener\+Paginas\+Uso} ()
+\begin{DoxyCompactList}\small\item\em obtener\+Paginas\+Uso \+: Función que devuelve las paginas en memoria \end{DoxyCompactList}\item 
+void \hyperlink{classm_server_ab2077d95ca266157d572c327fb93e7e6}{agregar\+Pagina} (string tipo\+Instruccion, string contenido, int numero\+Linea)
+\begin{DoxyCompactList}\small\item\em agregar\+Pagina \+: Función que agrega llama a la clase \hyperlink{classguardar_pagina}{guardar\+Pagina} \end{DoxyCompactList}\item 
+void \hyperlink{classm_server_ac3ecd22229fcc54f3f6f22aab57db1a4}{agregar\+Pagina\+Completa} (\hyperlink{classpagina}{pagina} pagina1)
+\begin{DoxyCompactList}\small\item\em agregar\+Pagina\+Completa \+: Función que agrega un página entera después de leerla desde el disco \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classm_server}{m\+Server} $\ast$ \hyperlink{classm_server_a175c535017a8b559eeceb47d27d6da28}{get\+Mem\+Server} ()
+\begin{DoxyCompactList}\small\item\em get\+Mem\+Server \+: Función que evalua si ya se creo una instancia o la crea y retorna esta instancia \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmem_reserver}{mem\+Reserver} $\ast$ \hyperlink{classm_server_a214a8661528c193adcda8fd3b9b6c974}{mem\+Reserver1} = (\hyperlink{classmem_reserver}{mem\+Reserver}$\ast$) malloc(sizeof(\hyperlink{classmem_reserver}{mem\+Reserver}))\hypertarget{classm_server_a214a8661528c193adcda8fd3b9b6c974}{}\label{classm_server_a214a8661528c193adcda8fd3b9b6c974}
+
+\begin{DoxyCompactList}\small\item\em mem\+Reserver1 \+: Instancia de la clase para reserva de memoria \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classm_server}{m\+Server} class \+: Clase del servidor para el manejo de la memoria y llama a las clases necesarias. 
+
+\subsection{Member Function Documentation}
+\index{m\+Server@{m\+Server}!agregar\+Pagina@{agregar\+Pagina}}
+\index{agregar\+Pagina@{agregar\+Pagina}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{agregar\+Pagina(string tipo\+Instruccion, string contenido, int numero\+Linea)}{agregarPagina(string tipoInstruccion, string contenido, int numeroLinea)}}]{\setlength{\rightskip}{0pt plus 5cm}void m\+Server\+::agregar\+Pagina (
+\begin{DoxyParamCaption}
+\item[{string}]{tipo\+Instruccion, }
+\item[{string}]{contenido, }
+\item[{int}]{numero\+Linea}
+\end{DoxyParamCaption}
+)}\hypertarget{classm_server_ab2077d95ca266157d572c327fb93e7e6}{}\label{classm_server_ab2077d95ca266157d572c327fb93e7e6}
+
+
+agregar\+Pagina \+: Función que agrega llama a la clase \hyperlink{classguardar_pagina}{guardar\+Pagina} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tipo\+Instruccion} & \+: Texto que indica el tipo de instrucción a guardar \\
+\hline
+{\em contenido} & \+: Texto que indica los parametros de esa instrucción \\
+\hline
+{\em numero\+Linea} & \+: Entero que corresponde al número de línea de la instrucción \\
+\hline
+\end{DoxyParams}
+\index{m\+Server@{m\+Server}!agregar\+Pagina\+Completa@{agregar\+Pagina\+Completa}}
+\index{agregar\+Pagina\+Completa@{agregar\+Pagina\+Completa}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{agregar\+Pagina\+Completa(pagina pagina1)}{agregarPaginaCompleta(pagina pagina1)}}]{\setlength{\rightskip}{0pt plus 5cm}void m\+Server\+::agregar\+Pagina\+Completa (
+\begin{DoxyParamCaption}
+\item[{{\bf pagina}}]{pagina1}
+\end{DoxyParamCaption}
+)}\hypertarget{classm_server_ac3ecd22229fcc54f3f6f22aab57db1a4}{}\label{classm_server_ac3ecd22229fcc54f3f6f22aab57db1a4}
+
+
+agregar\+Pagina\+Completa \+: Función que agrega un página entera después de leerla desde el disco 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pagina1} & \+: Página leída \\
+\hline
+\end{DoxyParams}
+\index{m\+Server@{m\+Server}!get\+Mem\+Server@{get\+Mem\+Server}}
+\index{get\+Mem\+Server@{get\+Mem\+Server}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{get\+Mem\+Server()}{getMemServer()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf m\+Server} $\ast$ m\+Server\+::get\+Mem\+Server (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classm_server_a175c535017a8b559eeceb47d27d6da28}{}\label{classm_server_a175c535017a8b559eeceb47d27d6da28}
+
+
+get\+Mem\+Server \+: Función que evalua si ya se creo una instancia o la crea y retorna esta instancia 
+
+\begin{DoxyReturn}{Returns}
+\+: Retorna la instancia de la clase 
+\end{DoxyReturn}
+\index{m\+Server@{m\+Server}!obtener\+Cantidad\+Pag@{obtener\+Cantidad\+Pag}}
+\index{obtener\+Cantidad\+Pag@{obtener\+Cantidad\+Pag}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{obtener\+Cantidad\+Pag()}{obtenerCantidadPag()}}]{\setlength{\rightskip}{0pt plus 5cm}int m\+Server\+::obtener\+Cantidad\+Pag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classm_server_a67997f7af71ce2d61cc4cb06592874d8}{}\label{classm_server_a67997f7af71ce2d61cc4cb06592874d8}
+
+
+obtener\+Cantidad\+Pag \+: Función que retorna el total de paginas creado 
+
+\begin{DoxyReturn}{Returns}
+\+: paginas\+Totales 
+\end{DoxyReturn}
+\index{m\+Server@{m\+Server}!obtener\+Paginas\+Uso@{obtener\+Paginas\+Uso}}
+\index{obtener\+Paginas\+Uso@{obtener\+Paginas\+Uso}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{obtener\+Paginas\+Uso()}{obtenerPaginasUso()}}]{\setlength{\rightskip}{0pt plus 5cm}pair$<$ int, int $>$ m\+Server\+::obtener\+Paginas\+Uso (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classm_server_a027377abae120452312130fe673efa67}{}\label{classm_server_a027377abae120452312130fe673efa67}
+
+
+obtener\+Paginas\+Uso \+: Función que devuelve las paginas en memoria 
+
+\begin{DoxyReturn}{Returns}
+\+: paginas\+Usando 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+headers/m\+Server.\+h\item 
+logic/m\+Server.\+cpp\end{DoxyCompactItemize}
