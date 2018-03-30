@@ -7,10 +7,14 @@
 #IncludeRegexTransform: 
 
 /home/andres/CLionProjects/TareaCorta/Window.cpp
+QtCore/QObject
+-
 Window.h
 /home/andres/CLionProjects/TareaCorta/Window.h
 
 /home/andres/CLionProjects/TareaCorta/Window.h
+QKeyEvent
+-
 QWidget
 -
 QtWidgets/QLabel
@@ -44,6 +48,10 @@ QtCore/qmetatype.h
 EWIEGA46WW/moc_Window.cpp
 /home/andres/CLionProjects/TareaCorta/cmake-build-debug/TareaCorta_autogen/EWIEGA46WW/moc_Window.cpp
 
+/home/andres/CLionProjects/TareaCorta/headers/Grafo.h
+iostream
+-
+
 /home/andres/CLionProjects/TareaCorta/headers/guardarPagina.h
 iostream
 -
@@ -59,9 +67,19 @@ pagina.h
 /home/andres/CLionProjects/TareaCorta/headers/pagina.h
 
 /home/andres/CLionProjects/TareaCorta/headers/lectorTextEdit.h
+Grafo.h
+/home/andres/CLionProjects/TareaCorta/headers/Grafo.h
+thread
+-
+fstream
+-
 QtCore/QString
 -
 iostream
+-
+QtWidgets/QTextEdit
+-
+QtWidgets/QLabel
 -
 
 /home/andres/CLionProjects/TareaCorta/headers/leerPagina.h
@@ -98,15 +116,15 @@ pagina.h
 iostream
 -
 
+/home/andres/CLionProjects/TareaCorta/logic/Grafo.cpp
+../headers/Grafo.h
+/home/andres/CLionProjects/TareaCorta/headers/Grafo.h
+
 /home/andres/CLionProjects/TareaCorta/logic/guardarPagina.cpp
 ../headers/guardarPagina.h
 /home/andres/CLionProjects/TareaCorta/headers/guardarPagina.h
 
 /home/andres/CLionProjects/TareaCorta/logic/lectorTextEdit.cpp
-thread
--
-fstream
--
 ../headers/lectorTextEdit.h
 /home/andres/CLionProjects/TareaCorta/headers/lectorTextEdit.h
 
@@ -135,6 +153,10 @@ Window.h
 /usr/include/x86_64-linux-gnu/qt5/QtCore/QCoreApplication
 qcoreapplication.h
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreapplication.h
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QObject
+qobject.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/QString
 qstring.h
@@ -831,6 +853,10 @@ algorithm
 -
 QtCore/qpoint.h
 -
+
+/usr/include/x86_64-linux-gnu/qt5/QtGui/QKeyEvent
+qevent.h
+/usr/include/x86_64-linux-gnu/qt5/QtGui/qevent.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtGui/qbrush.h
 QtCore/qpair.h

@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/andres/CLionProjects/TareaCorta/cmake-build-debug/TareaCorta_autogen/mocs_compilation.cpp" "/home/andres/CLionProjects/TareaCorta/cmake-build-debug/CMakeFiles/TareaCorta.dir/TareaCorta_autogen/mocs_compilation.cpp.o"
   "/home/andres/CLionProjects/TareaCorta/Window.cpp" "/home/andres/CLionProjects/TareaCorta/cmake-build-debug/CMakeFiles/TareaCorta.dir/Window.cpp.o"
+  "/home/andres/CLionProjects/TareaCorta/logic/Grafo.cpp" "/home/andres/CLionProjects/TareaCorta/cmake-build-debug/CMakeFiles/TareaCorta.dir/logic/Grafo.cpp.o"
   "/home/andres/CLionProjects/TareaCorta/logic/guardarPagina.cpp" "/home/andres/CLionProjects/TareaCorta/cmake-build-debug/CMakeFiles/TareaCorta.dir/logic/guardarPagina.cpp.o"
   "/home/andres/CLionProjects/TareaCorta/logic/lectorTextEdit.cpp" "/home/andres/CLionProjects/TareaCorta/cmake-build-debug/CMakeFiles/TareaCorta.dir/logic/lectorTextEdit.cpp.o"
   "/home/andres/CLionProjects/TareaCorta/logic/leerPagina.cpp" "/home/andres/CLionProjects/TareaCorta/cmake-build-debug/CMakeFiles/TareaCorta.dir/logic/leerPagina.cpp.o"

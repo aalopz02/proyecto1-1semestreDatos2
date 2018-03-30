@@ -2,6 +2,7 @@
 // Created by andres on 16/03/18.
 //
 
+#include <QtCore/QObject>
 #include "Window.h"
 
 Window::Window(QWidget *parent) :
@@ -28,22 +29,27 @@ Window::Window(QWidget *parent) :
     numLineas->setGeometry(0, 0, 15, 500);
     numLineas->show();
     numLineas->setFrameStyle(1);
+    numLineas->setAlignment(Qt::AlignTop);
+    numLineas->setText("1\n");
+    numeroMaxLinea = 1;
 
     salida = new QLabel(">", this);
     salida->setFrameStyle(1);
     salida->setGeometry(0, 500, 900, 75);
     salida->show();
 
-    log = new QLabel("...", this);
+    log = new QTextEdit("", this);
+    log->setText("\n\n\n\n");
     log->setFrameStyle(1);
     log->setGeometry(0, 575, 900, 75);
+    log->setReadOnly(true);
     log->show();
 
     clearLog = new QToolButton(log);
     clearLog->setIcon(QIcon("../uiImages/botonLimpiarLog.png"));
     clearLog->setIconSize(QSize(12,12));
     clearLog->setAutoFillBackground(true);
-    clearLog->setGeometry(879, 1, 20, 20);
+    clearLog->setGeometry(865, 1, 20, 20);
     clearLog->show();
 
     ejecutar = new QToolButton(contenedor_Botones);
@@ -70,21 +76,17 @@ Window::Window(QWidget *parent) :
     connect(ejecutar,SIGNAL(clicked()),this,SLOT(BotonEjecutarCodigo()));
     connect(clearLog,SIGNAL(clicked()),this,SLOT(BotonClearLog()));
     connect(qApp,SIGNAL(aboutToQuit()),this,SLOT(quitMyApp()));
+    connect(debug,SIGNAL(clicked()),this,SLOT(BotonDebugCodigo()));
 
 }
 
 void Window::quitMyApp() {
-    mServer *mServer1 = mServer::getMemServer();
-    string nombreArchivo;
-    for (int i = 0; i < mServer1->obtenerCantidadPag(); i++) {
-        nombreArchivo = std::to_string(i) +".dat";
-        remove(nombreArchivo.c_str());
-    }
-
+    remove("a.cpp");
+    remove("a.out");
 }
 
 void Window::BotonClearLog() {
-    log->setText("");
+    log->setText("\n\n\n\n");
 }
 
 QString Window::obtenerLecturaEditor() {
@@ -92,8 +94,11 @@ QString Window::obtenerLecturaEditor() {
 }
 
 void Window::BotonEjecutarCodigo() {
+    if (obtenerLecturaEditor().size() == 0){
+        return;
+    }
     lectorTextEdit lectura = lectorTextEdit(obtenerLecturaEditor());
-
+    lectura.generarSalidaCodigo(log,salida);
 }
 
 void Window::BotonDetenerEjecucionCodigo() {
@@ -101,6 +106,24 @@ void Window::BotonDetenerEjecucionCodigo() {
 }
 
 void Window::BotonDebugCodigo() {
-
+    if (obtenerLecturaEditor().size() == 0){
+        return;
+    }
+    lectorTextEdit lectura = lectorTextEdit(obtenerLecturaEditor());
+    lectura.debugCodigo(log,salida);
 }
 
+void Window::cambiarNumeroLineas() {
+    numeroMaxLinea ++;
+    string numlineas;
+    for (int i = 0; i < numeroMaxLinea; i++) {
+        numlineas += std::to_string(i) + "\n";
+    }
+    numLineas->setText(QString::fromStdString(numlineas));
+}
+
+void Window::keyPressEvent(QKeyEvent *event) {
+    if(event->key()==Qt::Key_Down) {
+        cout << "Ok";
+    }
+}

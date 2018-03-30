@@ -5,6 +5,8 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+
+#include <QKeyEvent>
 #include <QWidget>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QScrollArea>
@@ -30,7 +32,6 @@ public:
      */
     explicit Window(QWidget *parent = 0);
     QString obtenerLecturaEditor();
-
 private slots:
     /**
      * @brief quitMyApp : Función que elimina las p{aginas guardadas en eldisco cuando se termina la aplicación
@@ -42,11 +43,14 @@ private slots:
     void BotonDebugCodigo();
 
 private:
+    void keyPressEvent(QKeyEvent *event);
+    int numeroMaxLinea;
+    void cambiarNumeroLineas();
     QToolButton *ejecutar;
     QToolButton *stop;
     QToolButton *debug;
     QLabel *salida;
-    QLabel *log;
+    QTextEdit *log;
     QToolButton *clearLog;
     QLabel *contenedor_Botones;
     QLabel *contenedor_Ram;

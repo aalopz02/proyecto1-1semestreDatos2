@@ -190,6 +190,33 @@ Window.cpp.s:
 	$(MAKE) -f CMakeFiles/TareaCorta.dir/build.make CMakeFiles/TareaCorta.dir/Window.cpp.s
 .PHONY : Window.cpp.s
 
+logic/Grafo.o: logic/Grafo.cpp.o
+
+.PHONY : logic/Grafo.o
+
+# target to build an object file
+logic/Grafo.cpp.o:
+	$(MAKE) -f CMakeFiles/TareaCorta.dir/build.make CMakeFiles/TareaCorta.dir/logic/Grafo.cpp.o
+.PHONY : logic/Grafo.cpp.o
+
+logic/Grafo.i: logic/Grafo.cpp.i
+
+.PHONY : logic/Grafo.i
+
+# target to preprocess a source file
+logic/Grafo.cpp.i:
+	$(MAKE) -f CMakeFiles/TareaCorta.dir/build.make CMakeFiles/TareaCorta.dir/logic/Grafo.cpp.i
+.PHONY : logic/Grafo.cpp.i
+
+logic/Grafo.s: logic/Grafo.cpp.s
+
+.PHONY : logic/Grafo.s
+
+# target to generate assembly for a file
+logic/Grafo.cpp.s:
+	$(MAKE) -f CMakeFiles/TareaCorta.dir/build.make CMakeFiles/TareaCorta.dir/logic/Grafo.cpp.s
+.PHONY : logic/Grafo.cpp.s
+
 logic/guardarPagina.o: logic/guardarPagina.cpp.o
 
 .PHONY : logic/guardarPagina.o
@@ -395,6 +422,9 @@ help:
 	@echo "... Window.o"
 	@echo "... Window.i"
 	@echo "... Window.s"
+	@echo "... logic/Grafo.o"
+	@echo "... logic/Grafo.i"
+	@echo "... logic/Grafo.s"
 	@echo "... logic/guardarPagina.o"
 	@echo "... logic/guardarPagina.i"
 	@echo "... logic/guardarPagina.s"

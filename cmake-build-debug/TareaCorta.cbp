@@ -121,6 +121,9 @@
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/cmake-build-debug/TareaCorta_autogen/mocs_compilation.cpp">
 			<Option target="TareaCorta"/>
 		</Unit>
+		<Unit filename="/home/andres/CLionProjects/TareaCorta/headers/Grafo.h">
+			<Option target="TareaCorta"/>
+		</Unit>
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/headers/guardarPagina.h">
 			<Option target="TareaCorta"/>
 		</Unit>
@@ -137,6 +140,9 @@
 			<Option target="TareaCorta"/>
 		</Unit>
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/headers/pagina.h">
+			<Option target="TareaCorta"/>
+		</Unit>
+		<Unit filename="/home/andres/CLionProjects/TareaCorta/logic/Grafo.cpp">
 			<Option target="TareaCorta"/>
 		</Unit>
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/logic/guardarPagina.cpp">

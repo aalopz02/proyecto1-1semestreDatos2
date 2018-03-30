@@ -9,6 +9,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/TareaCorta.dir/logic/pagina.cpp.o"
   "CMakeFiles/TareaCorta.dir/logic/leerPagina.cpp.o"
   "CMakeFiles/TareaCorta.dir/logic/lectorTextEdit.cpp.o"
+  "CMakeFiles/TareaCorta.dir/logic/Grafo.cpp.o"
   "CMakeFiles/TareaCorta.dir/TareaCorta_autogen/mocs_compilation.cpp.o"
   "TareaCorta.pdb"
   "TareaCorta"
