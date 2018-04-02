@@ -98,7 +98,8 @@ void Window::BotonEjecutarCodigo() {
         return;
     }
     lectorTextEdit lectura = lectorTextEdit(obtenerLecturaEditor());
-    lectura.generarSalidaCodigo(log,salida);
+    lectura.generarSalidaCodigo();
+    lectura.ejecutarCodigo(log,salida);
 }
 
 void Window::BotonDetenerEjecucionCodigo() {

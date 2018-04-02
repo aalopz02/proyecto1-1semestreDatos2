@@ -51,3 +51,19 @@ void Grafo::setScope(int n) {
 int Grafo::getScope() {
     return scope;
 }
+
+void Grafo::setTipoinstruccion(string tipo) {
+    tipoInstruccion = tipo;
+}
+
+string Grafo::getTipoinstruccion() {
+    return tipoInstruccion;
+}
+
+int Grafo::getNumeroLinea() {
+    return numeroLinea;
+}
+
+void Grafo::setNumeroLinea(int numero) {
+    numeroLinea = numero;
+}

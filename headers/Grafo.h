@@ -16,18 +16,27 @@ private:
     string tipoVariable;
     string nombreVariable;
     string contenido;
+    string tipoInstruccion;
     int scope;
+    int numeroLinea;
 
 public:
 
     void setAnterior(Grafo anterior);
     void setSiguiente(Grafo siguiente);
+
     Grafo * getAnterior();
     Grafo * getSiguiente();
+
+    void setTipoinstruccion(string tipo);
     void setNombreVariable(string nombre);
     void setContendido(string cont);
     void setTipoVariable(string tipo);
     void setScope(int n);
+    void setNumeroLinea(int numero);
+
+    int getNumeroLinea();
+    string getTipoinstruccion();
     string getNombreVariable();
     string getContenido();
     string getTipoVariable();
