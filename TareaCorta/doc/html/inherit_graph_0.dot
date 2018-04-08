@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="guardarPagina",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classguardar_pagina.html",tooltip="The guardarPagina class : Clase que se encarga de crear las páginas y las guarda en disco en el bloqu..."];
-}
