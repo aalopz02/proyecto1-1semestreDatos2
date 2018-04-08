@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="memReserver",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classmem_reserver.html",tooltip="The memReserver class : Clase que se encarga de reservar un bloque de memoria inicial. "];
-}
