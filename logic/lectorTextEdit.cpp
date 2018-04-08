@@ -131,20 +131,82 @@ void lectorTextEdit::agregarInstruccion(string linea, int numeroLinea, int scope
 
 }
 
-string lectorTextEdit::buscarValor(string nombre, string tipo, int scope) {
+vector<vector<string>> lectorTextEdit::ordenarOperaciones(vector<int> entrada, string linea, int inicio) {
+    vector<vector<string>> variables = {{},{}};
+    string valor = "";
+    int indice = entrada[0];
+    int indiceEntradas = 0;
+    cout <<"linea evaluar: "<<linea <<endl;
+    for (int i = 0; i < linea.size()-1; i++) {
+        if (i == indice) {
+            cout << "indice evaluar: " << indice << endl;
+            variables[0].push_back(valor);
+            cout << "valor a agregar: " << valor << endl;
+            valor = linea[i];
+            variables[1].push_back(valor);
+            valor = "";
+            if (indiceEntradas + 1 < entrada.size()) {
+                indiceEntradas++;
+                indice = entrada[indiceEntradas];
+            }
+        } else {
+            cout << "char agregar: " << linea[i] <<endl;
+            valor += linea[i];
+        }
+    }
+    variables[0].push_back(valor);
+    cout << "valor a agregar: " << valor << endl;
+    return variables;
+}
+
+vector<string> lectorTextEdit::buscarValor(string nombre, string tipo, int scope) {
     Grafo aux;
+    vector<string> result = {"",""};
     for (int i = 0; i < listaInstrucciones.size(); i++) {
         aux = listaInstrucciones[i];
         if (nombre == aux.getNombreVariable()) {
             if (aux.getScope() <= scope) {
-                //evaluar caso si es char pasar a ascii y int y esas cosas
-                return aux.getContenido();
+                if (tipo == "int") {
+                    if (aux.getTipoVariable() == "int") {
+                        result[0] = aux.getContenido();
+                        result[1] = aux.getTipoVariable();
+                        return result;
+                    }
+                    if (aux.getTipoVariable() == "float" || aux.getTipoVariable() == "double" || aux.getTipoVariable() == "long") {
+                        result[0] = std::to_string(stoi(aux.getContenido()));
+                        result[1] = aux.getTipoVariable();
+                        return result;
+                    }
+                    if (aux.getTipoVariable() == "char") {
+                        result[0] = std::to_string(aux.getContenido()[1] - 0);
+                        result[1] = aux.getTipoVariable();
+                        return result;
+                    }
+                }
+                if (tipo == "float" || tipo == "double" || tipo == "long") {
+                    if (aux.getTipoVariable() == "float" || aux.getTipoVariable() == "double" || aux.getTipoVariable() == "int" || aux.getTipoVariable() == "long") {
+                        result[0] = aux.getContenido();
+                        result[1] = aux.getTipoVariable();
+                        return result;
+                    }
+                    if (aux.getTipoVariable() == "char") {
+                        result[0] = std::to_string(aux.getContenido()[1] - 0);
+                        result[1] = aux.getTipoVariable();
+                        return result;
+                    }
+                }
             } else {
-                return "ERROR_VARIABLE_FUERA_SCOPE";
+                result[0] = "ERROR_VARIABLE_FUERA_SCOPE";
+                return result;
             }
         }
     }
-    return "ERROR_VARIABLE_NO_DEFINIDA";
+    if (tipo == "char") {
+        result[0] = nombre;
+        return result;
+    }
+    result[0] = "ERROR_VARIABLE_NO_DEFINIDA";
+    return result;
 }
 
 void lectorTextEdit::estructurarDefinicion(string linea, int numeroLinea, int scope, string tipo, int indice) {
@@ -168,20 +230,39 @@ void lectorTextEdit::estructurarDefinicion(string linea, int numeroLinea, int sc
     }
     instruccion.setNombreVariable(nombre);
 
+    vector<int> operaciones;
+    vector<char> operadores = {'/','*','%','+','-',};
+
     string valor;
+    string valorAux;
     if (valorAsignado != 0) {
-        for (int i = valorAsignado+1; i < linea.size()-1; i++) {
-            valor += linea[i];
-        }
-        try {
-            stoi(valor);
-        } catch(std::invalid_argument& e) {
-            string caso = buscarValor(valor,tipo,scope);
-            if (caso == "ERROR_VARIABLE_NO_DEFINIDA") {
-                valor = valor + " no está definida ";
+        for (int i = valorAsignado + 1; i < linea.size(); i++) {
+            for (int j = 0; j < operadores.size(); j++) {
+                if (operadores[j] == linea[i]) {
+                    operaciones.push_back(i-(valorAsignado + 1));
+                }
             }
-            if (caso == "ERROR_VARIABLE_FUERA_SCOPE") {
-                valor = valor + " no está dentro del scope de: " + nombre;
+        valor += linea[i];
+        }
+        if (operaciones.empty()) {
+            try {
+                stoi(valor);
+            } catch(std::invalid_argument& e) {
+                vector<string> busqueda = buscarValor(valor,tipo,scope);
+                valor = busqueda[0];
+                if (valor == "ERROR_VARIABLE_NO_DEFINIDA") {
+                    valor = valor + " no está definida ";
+                }
+                if (valor == "ERROR_VARIABLE_FUERA_SCOPE") {
+                    valor = valor + " no está dentro del scope de: " + nombre;
+                }
+            }
+        } else {
+            vector<vector<string>> res = ordenarOperaciones(operaciones,valor,valorAsignado);
+            cout << res[0][0]<<endl;
+            for (int i = 0; i < res.size(); i++) {
+                cout << res[1][i] <<endl;
+                cout << res[0][i+1] <<endl;
             }
         }
     }
@@ -191,6 +272,16 @@ void lectorTextEdit::estructurarDefinicion(string linea, int numeroLinea, int sc
     instruccion.setContendido(valor);
     listaInstrucciones.push_back(instruccion);
 
+}
+
+string lectorTextEdit::realizarOperacion(vector<vector<string>> operaciones) {
+    string resultado;
+    string nombre;
+
+    for (int i = 0; i < operaciones.size(); i++) {
+
+    }
+    return resultado;
 }
 //if (linea.substr(0,6) == "struct") {cout << "esstruct"<<endl;}
 //if (linea.substr(0,9) == "reference") {cout << "esreference"<<endl;}

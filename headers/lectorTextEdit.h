@@ -31,10 +31,11 @@ private:
     void agregarCantidadTiposDatos(int dato);
     void agregarInstruccion(string linea, int numerolinea,int scope);
     void estructurarDefinicion(string linea, int numeroLinea, int scope, string tipo, int indice);
-    void estructurarOperacion();
+    string realizarOperacion(vector<vector<string>> operaciones);
     void imprimir();
     void definirOperacion(string linea, int numeroLinea, int scope, string def, string, int indice);
-    string buscarValor(string nombre, string tipo, int scope);
+    vector<string> buscarValor(string nombre, string tipo, int scope);
+    vector<vector<string>> ordenarOperaciones(vector<int> entrada, string linea,int inicio);
 
 };
 
