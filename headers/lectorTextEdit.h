@@ -2,8 +2,8 @@
 // Created by andres on 25/03/18.
 //
 
-#ifndef TAREACORTA_LECTORTEXTEDIT_H
-#define TAREACORTA_LECTORTEXTEDIT_H
+#ifndef PROYECTO1_LECTORTEXTEDIT_H
+#define PROYECTO1_LECTORTEXTEDIT_H
 
 #include "Grafo.h"
 #include <thread>
@@ -40,4 +40,4 @@ private:
 };
 
 
-#endif //TAREACORTA_LECTORTEXTEDIT_H
+#endif //PROYECTO1_LECTORTEXTEDIT_H

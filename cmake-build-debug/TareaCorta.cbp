@@ -124,43 +124,13 @@
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/headers/Grafo.h">
 			<Option target="TareaCorta"/>
 		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/headers/guardarPagina.h">
-			<Option target="TareaCorta"/>
-		</Unit>
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/headers/lectorTextEdit.h">
-			<Option target="TareaCorta"/>
-		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/headers/leerPagina.h">
-			<Option target="TareaCorta"/>
-		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/headers/mServer.h">
-			<Option target="TareaCorta"/>
-		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/headers/memReserver.h">
-			<Option target="TareaCorta"/>
-		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/headers/pagina.h">
 			<Option target="TareaCorta"/>
 		</Unit>
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/logic/Grafo.cpp">
 			<Option target="TareaCorta"/>
 		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/logic/guardarPagina.cpp">
-			<Option target="TareaCorta"/>
-		</Unit>
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/logic/lectorTextEdit.cpp">
-			<Option target="TareaCorta"/>
-		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/logic/leerPagina.cpp">
-			<Option target="TareaCorta"/>
-		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/logic/mServer.cpp">
-			<Option target="TareaCorta"/>
-		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/logic/memReserver.cpp">
-			<Option target="TareaCorta"/>
-		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/logic/pagina.cpp">
 			<Option target="TareaCorta"/>
 		</Unit>
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/main.cpp">
@@ -168,9 +138,6 @@
 		</Unit>
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
-		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigVersion.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
 		</Unit>
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfig.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
@@ -181,11 +148,11 @@
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
 		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreMacros.cmake">
+		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigVersion.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
 		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\"/>
+		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreMacros.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
 		</Unit>
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\"/>
@@ -193,11 +160,11 @@
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\"/>
 		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake">
+		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\"/>
 		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\"/>
 		</Unit>
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfig.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
@@ -208,13 +175,10 @@
 		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfig.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
-		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Xml/Qt5XmlConfigVersion.cmake">
+		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Xml/Qt5XmlConfig.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Xml\"/>
 		</Unit>
-		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Xml/Qt5XmlConfig.cmake">
+		<Unit filename="/home/andres/CLionProjects/TareaCorta/../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Xml/Qt5XmlConfigVersion.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Xml\"/>
 		</Unit>
 	</Project>

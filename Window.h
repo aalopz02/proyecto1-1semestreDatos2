@@ -14,8 +14,6 @@
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolButton>
 #include <QtCore/QCoreApplication>
-#include "headers/mServer.h"
-#include "headers/leerPagina.h"
 #include "headers/lectorTextEdit.h"
 
 using namespace std;

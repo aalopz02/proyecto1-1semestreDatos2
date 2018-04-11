@@ -12,26 +12,6 @@ void Grafo::setContendido(string cont) {
     contenido = cont;
 }
 
-string Grafo::getNombreVariable() {
-    return nombreVariable;
-}
-
-Grafo * Grafo::getSiguiente() {
-    return Siguiente;
-}
-
-Grafo * Grafo::getAnterior() {
-    return Anterior;
-}
-
-void Grafo::setSiguiente(Grafo siguiente) {
-    *Siguiente = siguiente;
-}
-
-void Grafo::setAnterior(Grafo anterior) {
-    *Anterior = anterior;
-}
-
 string Grafo::getTipoVariable() {
     return tipoVariable;
 }
@@ -66,4 +46,8 @@ int Grafo::getNumeroLinea() {
 
 void Grafo::setNumeroLinea(int numero) {
     numeroLinea = numero;
+}
+
+string Grafo::getNombreVariable() {
+    return nombreVariable;
 }

@@ -2,7 +2,7 @@
 #include "Window.h"
 
 /**
- * @brief Main : Funcion main que llama a la ventana principal para iniciar el ejemplo
+ * @brief Main : Funcion main que llama a la ventana principal para iniciar la aplicación
  */
 int main(int argc, char **argv)
 {
