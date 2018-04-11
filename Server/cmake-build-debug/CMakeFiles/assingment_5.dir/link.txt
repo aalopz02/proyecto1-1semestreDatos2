@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/assingment_5.dir/logic/Grafo.cpp.o CMakeFiles/assingment_5.dir/logic/memReserver.cpp.o CMakeFiles/assingment_5.dir/logic/mServer.cpp.o CMakeFiles/assingment_5.dir/main.cpp.o  -o assingment_5 
