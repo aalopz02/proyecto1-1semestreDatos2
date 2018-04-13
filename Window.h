@@ -32,26 +32,34 @@ public:
     QString obtenerLecturaEditor();
 private slots:
     /**
-     * @brief quitMyApp : Función que elimina las p{aginas guardadas en eldisco cuando se termina la aplicación
+     * @brief quitMyApp : Función que elimina los archivos creados en el disco cuando se termina la aplicación
      */
     void quitMyApp();
     void BotonClearLog();
     void BotonEjecutarCodigo();
     void BotonDetenerEjecucionCodigo();
     void BotonDebugCodigo();
+    void BotonAvanzarDebug();
 
 private:
-    void keyPressEvent(QKeyEvent *event);
-    int numeroMaxLinea;
-    void cambiarNumeroLineas();
+    string actualizarCuadroRam();
+    void mostrarLinea();
+    int lineaFinal = 1;
+    vector<Grafo> instrucciones;
+    int lineaActual = 0;
+    string agregarLineas();
+    lectorTextEdit lectura = lectorTextEdit("");
+    int numeroMaxLinea = 35;
+    QLabel *etiqueta_Ram;
     QToolButton *ejecutar;
     QToolButton *stop;
     QToolButton *debug;
-    QLabel *salida;
+    QTextEdit *salida;
+    QToolButton *siguienteDebug;
     QTextEdit *log;
     QToolButton *clearLog;
     QLabel *contenedor_Botones;
-    QLabel *contenedor_Ram;
+    QTextEdit *contenedor_Ram;
     QTextEdit *editor;
     QLabel *numLineas;
 };

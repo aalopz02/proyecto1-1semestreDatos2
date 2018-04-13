@@ -3,6 +3,7 @@
 //
 
 #include "../headers/lectorTextEdit.h"
+#include "../dependencias/exprtk.hpp"
 
 lectorTextEdit::lectorTextEdit(QString lecturaEditor) {
     lectura = lecturaEditor.toStdString();
@@ -34,20 +35,23 @@ string GetStdoutFromCommand(string cmd, char modo) {
     return data;
 }
 
-void lectorTextEdit::debugCodigo(QTextEdit *log,QLabel *salida) {
-    log->setText(QString::fromStdString(GetStdoutFromCommand("c++ -g a.cpp",1)));
+void lectorTextEdit::debugCodigo(QTextEdit *log,QTextEdit *salida) {
+    string texto = GetStdoutFromCommand("c++ -g a.cpp",1);
+    log->setText(QString::fromStdString(texto));
     dividirLectura();
 }
 
-void lectorTextEdit::ejecutarCodigo(QTextEdit *log,QLabel *salida) {
-    log->setText(QString::fromStdString(GetStdoutFromCommand("c++ -g a.cpp",1)));
+void lectorTextEdit::ejecutarCodigo(QTextEdit *log,QTextEdit *salida) {
+    string texto = GetStdoutFromCommand("c++ -g a.cpp",1);
+    log->setText(QString::fromStdString(texto));
     salida->setText(QString::fromStdString(GetStdoutFromCommand("./a.out",2)));
 }
 
 void lectorTextEdit::generarSalidaCodigo() {
     string nombreArchivo = "a.cpp";
     std::ofstream file (nombreArchivo);
-    file << "#include <iostream>\nusing namespace std;\nint main(){\n"+lectura+"\n"+"}//final";
+    file << "#include <iostream>\n#define getAdrr &\n#define getValue *\n"
+            "using namespace std;\nint main(){\n"+lectura+"\n"+"}//final";
     file.close();
 }
 
@@ -57,7 +61,7 @@ void lectorTextEdit::dividirLectura() {
     string linea;
     ifstream file ("a.cpp");
     while (getline(file,linea)) {
-        if (numLinea == 0 || numLinea ==1 || numLinea == 2) {
+        if (numLinea < 5) {
             numLinea++;
         } else {
             if (linea == "{") {
@@ -65,9 +69,6 @@ void lectorTextEdit::dividirLectura() {
             }
             if (linea == "}") {
                 scope = scope - 1;
-            }
-            if (linea.substr(0,6) == "struct") {
-
             }
             if (linea == "}//final") {
                 break;
@@ -97,51 +98,141 @@ void lectorTextEdit::agregarCantidadTiposDatos(int dato) {
         case 5:
             cantidadTiposDatos[4]++;
             break;
+        case 0:
+            break;
+        default:break;
     }
+}
+
+void lectorTextEdit::agregarMachoteEstructura(string linea) {
+    string nombre;
+    for (int i = 6; i< linea.size()-1; i++) {
+        nombre += linea[i];
+    }
+    nombreStructAux = nombre;
+    nombreEstructuras.push_back(nombre);
+    cout << "nombre struct: " << nombre << endl;
+}
+
+void lectorTextEdit::agregarMiembroEstructura(string linea, string tipo) {
+    string nombre;
+    cout << linea <<endl;
+    for (auto i = (int) tipo.size(); i < linea.size()-1; i++) {
+        nombre += linea[i];
+    }
+    miembrosEstructuras[0].push_back(nombreStructAux+"."+nombre);
+    miembrosEstructuras[1].push_back(tipo);
+    cout << "miembro struct: " << nombreStructAux+"."+nombre << ", " << tipo << endl;
 }
 
 void lectorTextEdit::definirOperacion(string linea, int numeroLinea, int scope, string def, string tipo, int indice) {
     if (def == "def") {
         estructurarDefinicion(linea,numeroLinea,scope,tipo,indice);
     }
+    if (def == "defstruct") {
+        agregarMachoteEstructura(linea);
+    }
+    if (def == "miembroStruct") {
+        cout << "ethcvbavdbvbvpvpn";
+        agregarMiembroEstructura(linea,tipo);
+    }
+    if (def == "operacion") {
+        string busqueda;
+        int indiceCortar = 0;
+        for (int i = 0; i < linea.size(); i++) {
+            if (linea[i] == '=') {
+                indiceCortar = i;
+                busqueda = buscarNombreVariable(linea.substr(0,i));
+                break;
+            }
+        }
+        if (busqueda == "ERROR_VARIABLE_NO_DEFINIDA") {
+            Grafo grafo1 = Grafo();
+            grafo1.setContendido("La variable: "+linea.substr(0,indiceCortar)+" no está definida");
+            grafo1.setNumeroLinea(numeroLinea);
+            grafo1.setNombreVariable("ERROR");
+            listaInstrucciones.push_back(grafo1);
+        } else {
+            definirOperacionSobreVariable(linea,linea.substr(0,indiceCortar),scope,tipo,numeroLinea);
+        }
+    }
 }
 
 void lectorTextEdit::agregarInstruccion(string linea, int numeroLinea, int scope) {
     linea.erase(std::remove(linea.begin(), linea.end(), ' '), linea.end());
     if (linea.substr(0,3) == "int") {
-        definirOperacion(linea, numeroLinea, scope, "def", "int",3);
-        agregarCantidadTiposDatos(1);
+        definirOperacion(linea, numeroLinea, scope, enStruct, "int",3);
+        if (enStruct != "miembroStruct") {
+            agregarCantidadTiposDatos(1);
+        }
     }
     if (linea.substr(0,4) == "long") {
-        definirOperacion(linea, numeroLinea, scope, "def", "long",4);
-        agregarCantidadTiposDatos(2);
+        definirOperacion(linea, numeroLinea, scope, enStruct, "long",4);
+        if (enStruct != "miembroStruct") {
+            agregarCantidadTiposDatos(2);
+        }
     }
     if (linea.substr(0,4) == "char") {
-        definirOperacion(linea, numeroLinea, scope, "def", "char",4);
-        agregarCantidadTiposDatos(3);
+        definirOperacion(linea, numeroLinea, scope, enStruct, "char",4);
+        if (enStruct != "miembroStruct") {
+            agregarCantidadTiposDatos(3);}
     }
     if (linea.substr(0,5) == "float") {
-        definirOperacion(linea, numeroLinea, scope, "def", "float",5);
-        agregarCantidadTiposDatos(4);
+        definirOperacion(linea, numeroLinea, scope, enStruct, "float",5);
+        if (enStruct != "miembroStruct") {
+            agregarCantidadTiposDatos(4);
+        }
     }
     if (linea.substr(0,6) == "double") {
-        definirOperacion(linea, numeroLinea, scope, "def", "double",6);
-        agregarCantidadTiposDatos(5);
+        definirOperacion(linea, numeroLinea, scope, enStruct, "double",6);
+        if (enStruct != "miembroStruct") {
+            agregarCantidadTiposDatos(5);
+        }
+    }
+    if (linea.substr(0,6) == "struct" && linea[linea.size()-1] == '{') {
+        enStruct = "defstruct";
+        definirOperacion(linea, numeroLinea, 0, enStruct, "",0);
+        enStruct = "miembroStruct";
+    }
+    if (linea.substr(0,1) == "};") {
+        enStruct = "def";
+    }
+    if (linea.substr(0,9) == "reference<") {
+        enStruct = "ref";
+        definirOperacion(linea, numeroLinea, scope, enStruct, linea.substr(9,linea.size()-1),0);
+        enStruct = "def";
+    }
+    if (linea.substr(0,7) == "getValue"){
+        enStruct = "getValue";
+        definirOperacion(linea, numeroLinea, 0, enStruct,"",0);
+        enStruct = "def";
+    }
+    if (linea.substr(0,6) == "getAdrr") {
+        enStruct = "getAdrr";
+        definirOperacion(linea, numeroLinea, 0, enStruct,"",0);
+        enStruct = "def";
+    }
+    if (linea.substr(0,6) == "struct") {
+        enStruct = "asignacionStruct";
+        definirOperacion(linea, numeroLinea, scope, enStruct,"",0);
+        enStruct = "def";
+    }
+    else{
+        enStruct = "operacion";
+        definirOperacion(linea, numeroLinea, scope, enStruct,"",0);
+        enStruct = "def";
     }
 
 }
 
-vector<vector<string>> lectorTextEdit::ordenarOperaciones(vector<int> entrada, string linea, int inicio) {
+vector<vector<string>> lectorTextEdit::ordenarOperaciones(vector<int> entrada, string linea) {
     vector<vector<string>> variables = {{},{}};
-    string valor = "";
+    string valor;
     int indice = entrada[0];
     int indiceEntradas = 0;
-    cout <<"linea evaluar: "<<linea <<endl;
     for (int i = 0; i < linea.size()-1; i++) {
         if (i == indice) {
-            cout << "indice evaluar: " << indice << endl;
             variables[0].push_back(valor);
-            cout << "valor a agregar: " << valor << endl;
             valor = linea[i];
             variables[1].push_back(valor);
             valor = "";
@@ -150,12 +241,15 @@ vector<vector<string>> lectorTextEdit::ordenarOperaciones(vector<int> entrada, s
                 indice = entrada[indiceEntradas];
             }
         } else {
-            cout << "char agregar: " << linea[i] <<endl;
-            valor += linea[i];
+            if (linea[i] == '(' || linea[i] == ')') {
+                valor += "";
+            }
+            else {
+                valor += linea[i];
+            }
         }
     }
     variables[0].push_back(valor);
-    cout << "valor a agregar: " << valor << endl;
     return variables;
 }
 
@@ -230,9 +324,86 @@ void lectorTextEdit::estructurarDefinicion(string linea, int numeroLinea, int sc
     }
     instruccion.setNombreVariable(nombre);
 
-    vector<int> operaciones;
-    vector<char> operadores = {'/','*','%','+','-',};
+    string valor = analizarLinea(scope,numeroLinea,nombre,tipo,linea,valorAsignado);
+    instruccion.setContendido(valor);
+    listaInstrucciones.push_back(instruccion);
 
+}
+
+string lectorTextEdit::realizarOperacion(vector<vector<string>> operaciones,string tipo, int scope, string expresion) {
+    typedef exprtk::symbol_table<double> symbol_table_t;
+    typedef exprtk::expression<double>     expression_t;
+    typedef exprtk::parser<double>             parser_t;
+    symbol_table_t symbol_table;
+    expression_t   expression;
+    parser_t       parser;
+
+    string resultado;
+    vector<string> nombres;
+    vector <double> valores;
+    for (int i = 0; i< operaciones[0].size(); i++) {
+        nombres.push_back(operaciones[0][i]);
+        valores.push_back(0);
+        symbol_table.add_variable(nombres[i],valores[i]);
+    }
+
+    for (int i = 0; i < operaciones[0].size(); i++) {
+        try {
+            stoi(operaciones[0][i]);
+        } catch(std::invalid_argument& e) {
+            try {
+                valores[i] = stoi(buscarValor(operaciones[0][i],tipo,scope)[0]);
+            } catch(std::invalid_argument& e) {
+            }
+        }
+    }
+
+    expression.register_symbol_table(symbol_table);
+    parser.compile(expresion,expression);
+
+    if (tipo == "int") {
+        resultado = std::to_string((int) expression.value());
+    }
+    if (tipo == "double") {
+        resultado = std::to_string(expression.value());
+    }
+    if (tipo == "float") {
+        resultado = std::to_string((float) expression.value());
+    }
+    if (tipo == "long") {
+        resultado = std::to_string((long) expression.value());
+    }
+    if (tipo == "char") {
+        resultado = std::to_string((char) expression.value());
+    }
+    return resultado;
+}
+
+string lectorTextEdit::buscarNombreVariable(string nombre) {
+    Grafo aux;
+    for (int i = 0; i < listaInstrucciones.size(); i++) {
+        aux = listaInstrucciones[i];
+        if (aux.getNombreVariable() == nombre) {
+            return std::to_string(i);
+        }
+    }
+    return "ERROR_VARIABLE_NO_DEFINIDA";
+}
+
+void
+lectorTextEdit::definirOperacionSobreVariable(string linea, string nombre, int scope, string tipo, int numeroLinea) {
+    Grafo operacion = Grafo();
+    operacion.setNombreVariable(nombre);
+    operacion.setScope(scope);
+    operacion.setTipoVariable(tipo);
+    operacion.setNumeroLinea(numeroLinea);
+    string valor = analizarLinea(scope,numeroLinea,nombre,tipo,linea,nombre.size());
+}
+
+string lectorTextEdit::analizarLinea(int scope, int numeroLinea, string nombre, string tipo, string linea, int valorAsignado) {
+    vector<int> operaciones;
+    vector<char> operadores = {'/','*','%','+','-',')','('};
+    int parentesis = 0;
     string valor;
     string valorAux;
     if (valorAsignado != 0) {
@@ -241,49 +412,43 @@ void lectorTextEdit::estructurarDefinicion(string linea, int numeroLinea, int sc
                 if (operadores[j] == linea[i]) {
                     operaciones.push_back(i-(valorAsignado + 1));
                 }
+                if (i == 6) {
+                    parentesis ++;
+                }
+                if (i == 5) {
+                    parentesis --;
+                }
             }
-        valor += linea[i];
+            valor += linea[i];
+        }
+        if (parentesis != 0) {
+            valor = "ERROR_FALTA_PARENTESIS";
         }
         if (operaciones.empty()) {
+            valor = valor.substr(0,valor.size()-1);
             try {
                 stoi(valor);
             } catch(std::invalid_argument& e) {
-                vector<string> busqueda = buscarValor(valor,tipo,scope);
-                valor = busqueda[0];
-                if (valor == "ERROR_VARIABLE_NO_DEFINIDA") {
-                    valor = valor + " no está definida ";
-                }
-                if (valor == "ERROR_VARIABLE_FUERA_SCOPE") {
-                    valor = valor + " no está dentro del scope de: " + nombre;
+                if ( valor  != "ERROR_FALTA_PARENTESIS") {
+                    vector<string> busqueda = buscarValor(valor,tipo,scope);
+                    if (busqueda[0] == "ERROR_VARIABLE_NO_DEFINIDA") {
+                        valor = valor + " no está definida ";
+                    }
+                    if (busqueda[0] == "ERROR_VARIABLE_FUERA_SCOPE") {
+                        valor = valor + " no está dentro del scope de: " + nombre;
+                    }
+                } else {
+                    valor = "Falta un paréntesis en la línea: "+std::to_string(numeroLinea);
                 }
             }
         } else {
-            vector<vector<string>> res = ordenarOperaciones(operaciones,valor,valorAsignado);
-            cout << res[0][0]<<endl;
-            for (int i = 0; i < res.size(); i++) {
-                cout << res[1][i] <<endl;
-                cout << res[0][i+1] <<endl;
-            }
+            vector<vector<string>> res = ordenarOperaciones(operaciones,valor);
+            valor = realizarOperacion(res,tipo,scope,valor);
         }
     }
     else {
-        valor = "NO_VALOR_ASIGNADO";
+        valor = "El valor no está iniciado";
     }
-    instruccion.setContendido(valor);
-    listaInstrucciones.push_back(instruccion);
-
+    cout << "variable: " << nombre << " es: "<< valor <<endl;
+    return valor;
 }
-
-string lectorTextEdit::realizarOperacion(vector<vector<string>> operaciones) {
-    string resultado;
-    string nombre;
-
-    for (int i = 0; i < operaciones.size(); i++) {
-
-    }
-    return resultado;
-}
-//if (linea.substr(0,6) == "struct") {cout << "esstruct"<<endl;}
-//if (linea.substr(0,9) == "reference") {cout << "esreference"<<endl;}
-//if (linea.substr(0,9) == "getAddre") {cout << "esgetAddre"<<endl;}
-//if (linea.substr(0,8) == "getValue") {cout << "esgetValue"<<endl;}

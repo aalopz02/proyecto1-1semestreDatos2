@@ -15,27 +15,34 @@ Window::Window(QWidget *parent) :
     contenedor_Botones->setFrameStyle(1);
     contenedor_Botones->show();
 
-    contenedor_Ram = new QLabel(this);
-    contenedor_Ram->setGeometry(665,28,235,472);
+    etiqueta_Ram = new QLabel(this);
+    etiqueta_Ram->setText("Dir            Valor      Nombre       Ref");
+    etiqueta_Ram->setGeometry(665,28,235,25);
+    etiqueta_Ram->setFrameStyle(1);
+    etiqueta_Ram->show();
+
+    contenedor_Ram = new QTextEdit(this);
+    contenedor_Ram->setGeometry(665,50,235,450);
     contenedor_Ram->setFrameStyle(1);
+    contenedor_Ram->setReadOnly(true);
     contenedor_Ram->show();
 
     editor = new QTextEdit(this);
-    editor->setGeometry(15, 0, 650, 500);
+    editor->setGeometry(25, 0, 640, 500);
     editor->show();
     editor->setFrameStyle(1);
 
     numLineas = new QLabel(this);
-    numLineas->setGeometry(0, 0, 15, 500);
+    numLineas->setGeometry(0, 0, 25, 500);
     numLineas->show();
     numLineas->setFrameStyle(1);
     numLineas->setAlignment(Qt::AlignTop);
-    numLineas->setText("1\n");
-    numeroMaxLinea = 1;
+    numLineas->setText(QString::fromStdString(agregarLineas()));
 
-    salida = new QLabel(">", this);
+    salida = new QTextEdit(">", this);
     salida->setFrameStyle(1);
     salida->setGeometry(0, 500, 900, 75);
+    salida->setReadOnly(true);
     salida->show();
 
     log = new QTextEdit("", this);
@@ -73,11 +80,30 @@ Window::Window(QWidget *parent) :
     stop->setGeometry(60, 1, 25, 25);
     stop->show();
 
+    siguienteDebug = new QToolButton(contenedor_Botones);
+    siguienteDebug->setIcon(QIcon("../uiImages/boton_Siguiente_Debug.png"));
+    siguienteDebug->setIconSize(QSize(85,55));
+    siguienteDebug->setGeometry(85,1,65,25);
+    siguienteDebug->hide();
+
     connect(ejecutar,SIGNAL(clicked()),this,SLOT(BotonEjecutarCodigo()));
     connect(clearLog,SIGNAL(clicked()),this,SLOT(BotonClearLog()));
     connect(qApp,SIGNAL(aboutToQuit()),this,SLOT(quitMyApp()));
     connect(debug,SIGNAL(clicked()),this,SLOT(BotonDebugCodigo()));
+    connect(stop,SIGNAL(clicked()),this,SLOT(BotonDetenerEjecucionCodigo()));
+    connect(siguienteDebug,SIGNAL(clicked()),this,SLOT(BotonAvanzarDebug()));
 
+}
+
+string Window::agregarLineas() {
+    string resultado;
+    for (int i = 0; i <numeroMaxLinea; i++) {
+        if (std::to_string(i).size() == 1) {
+            resultado += "  ";
+        };
+        resultado += std::to_string(i)+"\n";
+    }
+    return resultado;
 }
 
 void Window::quitMyApp() {
@@ -86,7 +112,7 @@ void Window::quitMyApp() {
 }
 
 void Window::BotonClearLog() {
-    log->setText("\n\n\n\n");
+    log->setText(QString::fromStdString("\n\n\n\n"));
 }
 
 QString Window::obtenerLecturaEditor() {
@@ -97,34 +123,38 @@ void Window::BotonEjecutarCodigo() {
     if (obtenerLecturaEditor().size() == 0){
         return;
     }
-    lectorTextEdit lectura = lectorTextEdit(obtenerLecturaEditor());
+    lectura = lectorTextEdit(obtenerLecturaEditor());
     lectura.generarSalidaCodigo();
     lectura.ejecutarCodigo(log,salida);
 }
 
 void Window::BotonDetenerEjecucionCodigo() {
-
+    debug->setEnabled(true);
+    ejecutar->setEnabled(true);
+    siguienteDebug->hide();
 }
 
 void Window::BotonDebugCodigo() {
     if (obtenerLecturaEditor().size() == 0){
         return;
     }
-    lectorTextEdit lectura = lectorTextEdit(obtenerLecturaEditor());
+    lectura = lectorTextEdit(obtenerLecturaEditor());
     lectura.debugCodigo(log,salida);
+    debug->setEnabled(false);
+    ejecutar->setEnabled(false);
+    siguienteDebug->show();
 }
 
-void Window::cambiarNumeroLineas() {
-    numeroMaxLinea ++;
-    string numlineas;
-    for (int i = 0; i < numeroMaxLinea; i++) {
-        numlineas += std::to_string(i) + "\n";
+void Window::BotonAvanzarDebug() {
+    if (lineaActual == lineaFinal) {
+        BotonDetenerEjecucionCodigo();
+        log->setText("Fin ejecución\n\n\n\n");
+    } else {
+
     }
-    numLineas->setText(QString::fromStdString(numlineas));
+    lineaActual ++;
 }
 
-void Window::keyPressEvent(QKeyEvent *event) {
-    if(event->key()==Qt::Key_Down) {
-        cout << "Ok";
-    }
+void Window::mostrarLinea() {
+
 }
