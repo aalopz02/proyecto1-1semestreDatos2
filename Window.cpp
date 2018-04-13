@@ -132,6 +132,7 @@ void Window::BotonDetenerEjecucionCodigo() {
     debug->setEnabled(true);
     ejecutar->setEnabled(true);
     siguienteDebug->hide();
+    editor->setReadOnly(false);
 }
 
 void Window::BotonDebugCodigo() {
@@ -143,6 +144,7 @@ void Window::BotonDebugCodigo() {
     debug->setEnabled(false);
     ejecutar->setEnabled(false);
     siguienteDebug->show();
+    editor->setReadOnly(true);
 }
 
 void Window::BotonAvanzarDebug() {

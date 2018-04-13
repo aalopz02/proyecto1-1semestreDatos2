@@ -36,6 +36,7 @@ string GetStdoutFromCommand(string cmd, char modo) {
 }
 
 void lectorTextEdit::debugCodigo(QTextEdit *log,QTextEdit *salida) {
+    output = salida;
     string texto = GetStdoutFromCommand("c++ -g a.cpp",1);
     log->setText(QString::fromStdString(texto));
     dividirLectura();
@@ -133,7 +134,6 @@ void lectorTextEdit::definirOperacion(string linea, int numeroLinea, int scope, 
         agregarMachoteEstructura(linea);
     }
     if (def == "miembroStruct") {
-        cout << "ethcvbavdbvbvpvpn";
         agregarMiembroEstructura(linea,tipo);
     }
     if (def == "operacion") {
@@ -216,6 +216,9 @@ void lectorTextEdit::agregarInstruccion(string linea, int numeroLinea, int scope
         enStruct = "asignacionStruct";
         definirOperacion(linea, numeroLinea, scope, enStruct,"",0);
         enStruct = "def";
+    }
+    if (linea.substr(0,4) == "cout") {
+        imprimir(linea.substr(6,linea.size()-2));
     }
     else{
         enStruct = "operacion";
@@ -451,4 +454,9 @@ string lectorTextEdit::analizarLinea(int scope, int numeroLinea, string nombre, 
     }
     cout << "variable: " << nombre << " es: "<< valor <<endl;
     return valor;
+}
+
+void lectorTextEdit::imprimir(string texto) {
+    string contenido = output->toPlainText().toStdString()+texto;
+    output->setText(QString::fromStdString(contenido));
 }
