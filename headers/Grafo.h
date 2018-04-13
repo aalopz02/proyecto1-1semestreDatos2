@@ -2,8 +2,8 @@
 // Created by andres on 28/03/18.
 //
 
-#ifndef PROYECTO1_GRAFO_H
-#define PROYECTO1_GRAFO_H
+#ifndef SERVER_GRAFO_H
+#define SERVER_GRAFO_H
 
 #include <iostream>
 
@@ -103,4 +103,5 @@ public:
 
 };
 
-#endif //PROYECTO1_GRAFO_H
+
+#endif //SERVER_GRAFO_H
