@@ -14,9 +14,7 @@
 #include <QtWidgets/QLabel>
 
 using namespace std;
-/**
- *@brief The lectorTextEdit class : Clase que corresponde al lector e interprete del IDE
- */
+
 class lectorTextEdit {
 
 public:
@@ -45,8 +43,9 @@ public:
      * @param salida : QTextEdit que corresponde a la salida de texto del IDE
      */
     void ejecutarCodigo(QTextEdit *log, QTextEdit *salida);
-
+    std::vector<Grafo> getListaInstrucciones();
 private:
+    vector<vector<string>> numReferenciaVariables;
     /**
      * @brief output : puntero a la salida stdout del IDE
      */
@@ -80,7 +79,6 @@ private:
      * @brief cantidadTipoDatos : Vector que almacena las referencias a cada tipo para enviarlo  al servidor de memoria
      */
     std::vector<int> cantidadTiposDatos = {0, 0, 0, 0, 0};
-
     /**
      * @brief dividirLectura : Lee linea por línea y envía lo leído a agregarinstruccion() además de definir el scope de una línea
      */

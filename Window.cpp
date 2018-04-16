@@ -133,6 +133,7 @@ void Window::BotonDetenerEjecucionCodigo() {
     ejecutar->setEnabled(true);
     siguienteDebug->hide();
     editor->setReadOnly(false);
+    lineaActual = 0;
 }
 
 void Window::BotonDebugCodigo() {
@@ -145,14 +146,16 @@ void Window::BotonDebugCodigo() {
     ejecutar->setEnabled(false);
     siguienteDebug->show();
     editor->setReadOnly(true);
+    instrucciones = lectura.getListaInstrucciones();
 }
 
 void Window::BotonAvanzarDebug() {
-    if (lineaActual == lineaFinal) {
+    if (lineaActual == instrucciones.size()) {
         BotonDetenerEjecucionCodigo();
         log->setText("Fin ejecución\n\n\n\n");
+        lineaActual = 0;
     } else {
-
+        salida->setText(QString::fromStdString(instrucciones[lineaActual].getNombreVariable() +" -> "+ instrucciones[lineaActual].getContenido()));
     }
     lineaActual ++;
 }

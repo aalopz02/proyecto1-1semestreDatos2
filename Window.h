@@ -78,11 +78,6 @@ private:
      * @brief mostrarLinea : Agrega un  efecto sobre el text edit para mostrar el recorrido del debug
      */
     void mostrarLinea();
-
-    /**
-     * @brief lineaFinal : Variable que contiene el término de la ejecución
-     */
-    int lineaFinal = 1;
     /**
      * @brief instrucciones : Vector de Grafo para contener lasa instrucciones leídas
      */
@@ -91,7 +86,6 @@ private:
      * @brief lineaActual : Entero que contiene la línea por donde va la ejecución
      */
     int lineaActual = 0;
-
     /**
      * @brief agregarLineas : Función que agrega números de líneas
      * @return : String con los números de línea

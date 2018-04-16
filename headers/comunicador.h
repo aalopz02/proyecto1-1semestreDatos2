@@ -5,11 +5,12 @@
 #ifndef PROYECTO1_COMUNICADOR_H
 #define PROYECTO1_COMUNICADOR_H
 
-/**
- * @brief the comunicador class : Clase uq se encarga de la comunciacion
- */
-class comunicador {
+#include <QtCore/QJsonObject>
 
+class comunicador {
+public:
+    comunicador();
+    void sendMsj(QJsonObject mensaje);
 };
 
 

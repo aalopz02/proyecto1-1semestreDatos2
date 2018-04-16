@@ -4,6 +4,8 @@
 
 #include "../headers/lectorTextEdit.h"
 #include "../dependencias/exprtk.hpp"
+#include "../headers/formuladorMensajes.h"
+#include "../headers/comunicador.h"
 
 lectorTextEdit::lectorTextEdit(QString lecturaEditor) {
     lectura = lecturaEditor.toStdString();
@@ -52,8 +54,10 @@ void lectorTextEdit::generarSalidaCodigo() {
     string nombreArchivo = "a.cpp";
     std::ofstream file (nombreArchivo);
     file << "#include <iostream>\n#define getAdrr &\n#define getValue *\n"
+            "typedef int * reference_int;typedef long * reference_long;typedef float * reference_float;typedef double * reference_double;typedef char * reference_char;\n"
             "using namespace std;\nint main(){\n"+lectura+"\n"+"}//final";
     file.close();
+
 }
 
 void lectorTextEdit::dividirLectura() {
@@ -62,7 +66,7 @@ void lectorTextEdit::dividirLectura() {
     string linea;
     ifstream file ("a.cpp");
     while (getline(file,linea)) {
-        if (numLinea < 5) {
+        if (numLinea < 6) {
             numLinea++;
         } else {
             if (linea == "{") {
@@ -80,6 +84,14 @@ void lectorTextEdit::dividirLectura() {
 
     }
     file.close();
+    comunicador com = comunicador();
+    formuladorMensajes prueba = formuladorMensajes(11);
+    com.sendMsj(prueba.getMensaje());
+    formuladorMensajes msjCantidadTipo = formuladorMensajes(26,cantidadTiposDatos);
+    com.sendMsj(msjCantidadTipo.getMensaje());
+    formuladorMensajes msjCantidadReferencias = formuladorMensajes(27,numReferenciaVariables);
+    com.sendMsj(msjCantidadReferencias.getMensaje());
+
 }
 
 void lectorTextEdit::agregarCantidadTiposDatos(int dato) {
@@ -117,7 +129,6 @@ void lectorTextEdit::agregarMachoteEstructura(string linea) {
 
 void lectorTextEdit::agregarMiembroEstructura(string linea, string tipo) {
     string nombre;
-    cout << linea <<endl;
     for (auto i = (int) tipo.size(); i < linea.size()-1; i++) {
         nombre += linea[i];
     }
@@ -165,65 +176,87 @@ void lectorTextEdit::agregarInstruccion(string linea, int numeroLinea, int scope
         if (enStruct != "miembroStruct") {
             agregarCantidadTiposDatos(1);
         }
+        return;
     }
     if (linea.substr(0,4) == "long") {
         definirOperacion(linea, numeroLinea, scope, enStruct, "long",4);
         if (enStruct != "miembroStruct") {
             agregarCantidadTiposDatos(2);
         }
+        return;
     }
     if (linea.substr(0,4) == "char") {
         definirOperacion(linea, numeroLinea, scope, enStruct, "char",4);
         if (enStruct != "miembroStruct") {
-            agregarCantidadTiposDatos(3);}
+            agregarCantidadTiposDatos(3);
+        }
+        return;
     }
     if (linea.substr(0,5) == "float") {
         definirOperacion(linea, numeroLinea, scope, enStruct, "float",5);
         if (enStruct != "miembroStruct") {
             agregarCantidadTiposDatos(4);
         }
+        return;
     }
     if (linea.substr(0,6) == "double") {
         definirOperacion(linea, numeroLinea, scope, enStruct, "double",6);
         if (enStruct != "miembroStruct") {
             agregarCantidadTiposDatos(5);
         }
+        return;
     }
     if (linea.substr(0,6) == "struct" && linea[linea.size()-1] == '{') {
         enStruct = "defstruct";
         definirOperacion(linea, numeroLinea, 0, enStruct, "",0);
         enStruct = "miembroStruct";
+        return;
     }
     if (linea.substr(0,1) == "};") {
         enStruct = "def";
+        return;
     }
-    if (linea.substr(0,9) == "reference<") {
+    if (linea.substr(0,9) == "reference_") {
         enStruct = "ref";
         definirOperacion(linea, numeroLinea, scope, enStruct, linea.substr(9,linea.size()-1),0);
         enStruct = "def";
+        return;
     }
     if (linea.substr(0,7) == "getValue"){
         enStruct = "getValue";
         definirOperacion(linea, numeroLinea, 0, enStruct,"",0);
         enStruct = "def";
+        return;
     }
     if (linea.substr(0,6) == "getAdrr") {
         enStruct = "getAdrr";
         definirOperacion(linea, numeroLinea, 0, enStruct,"",0);
         enStruct = "def";
+        return;
     }
     if (linea.substr(0,6) == "struct") {
         enStruct = "asignacionStruct";
         definirOperacion(linea, numeroLinea, scope, enStruct,"",0);
         enStruct = "def";
+        return;
     }
     if (linea.substr(0,4) == "cout") {
-        imprimir(linea.substr(6,linea.size()-2));
+        imprimir(linea.substr(6, linea.size() - 2));
+        return;
     }
-    else{
-        enStruct = "operacion";
-        definirOperacion(linea, numeroLinea, scope, enStruct,"",0);
-        enStruct = "def";
+    string nombre;
+    for (int i = 0; i < linea.size(); i++) {
+        if (linea[i] == '='){
+            break;
+        }
+        nombre += linea[i];
+    }
+    int indice;
+    try {
+        indice = stoi(buscarNombreVariable(nombre));
+        definirOperacionSobreVariable(linea,nombre,scope,listaInstrucciones[indice].getTipoVariable(),numeroLinea);
+    } catch (std::invalid_argument& e) {
+        definirOperacionSobreVariable(linea,nombre,0,"ND",numeroLinea);
     }
 
 }
@@ -344,11 +377,15 @@ string lectorTextEdit::realizarOperacion(vector<vector<string>> operaciones,stri
     string resultado;
     vector<string> nombres;
     vector <double> valores;
+
     for (int i = 0; i< operaciones[0].size(); i++) {
         nombres.push_back(operaciones[0][i]);
         valores.push_back(0);
         symbol_table.add_variable(nombres[i],valores[i]);
     }
+
+    expression.register_symbol_table(symbol_table);
+    parser.compile(expresion,expression);
 
     for (int i = 0; i < operaciones[0].size(); i++) {
         try {
@@ -360,9 +397,6 @@ string lectorTextEdit::realizarOperacion(vector<vector<string>> operaciones,stri
             }
         }
     }
-
-    expression.register_symbol_table(symbol_table);
-    parser.compile(expresion,expression);
 
     if (tipo == "int") {
         resultado = std::to_string((int) expression.value());
@@ -400,7 +434,14 @@ lectorTextEdit::definirOperacionSobreVariable(string linea, string nombre, int s
     operacion.setScope(scope);
     operacion.setTipoVariable(tipo);
     operacion.setNumeroLinea(numeroLinea);
-    string valor = analizarLinea(scope,numeroLinea,nombre,tipo,linea,nombre.size());
+    string valor;
+    if (tipo != "ND") {
+        valor = analizarLinea(scope,numeroLinea,nombre,tipo,linea,nombre.size());
+    } else {
+        valor = "La variable: " + nombre + " no está definida";
+    }
+    operacion.setContendido(valor);
+    listaInstrucciones.push_back(operacion);
 }
 
 string lectorTextEdit::analizarLinea(int scope, int numeroLinea, string nombre, string tipo, string linea, int valorAsignado) {
@@ -457,6 +498,18 @@ string lectorTextEdit::analizarLinea(int scope, int numeroLinea, string nombre, 
 }
 
 void lectorTextEdit::imprimir(string texto) {
-    string contenido = output->toPlainText().toStdString()+texto;
-    output->setText(QString::fromStdString(contenido));
+    Grafo aux = Grafo();
+    cout << texto;
+    string nombre = buscarNombreVariable(texto);
+    if (nombre == "ERROR_VARIABLE_NO_DEFINIDA") {
+        aux.setContendido(texto);
+        aux.setNombreVariable("Cout");
+    } else {
+        aux.setNombreVariable(texto);
+        aux.setContendido(listaInstrucciones[stoi(nombre)].getContenido());
+    }
+}
+
+std::vector<Grafo> lectorTextEdit::getListaInstrucciones() {
+    return listaInstrucciones;
 }
