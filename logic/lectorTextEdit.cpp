@@ -153,7 +153,7 @@ void lectorTextEdit::definirOperacion(string linea, int numeroLinea, int scope, 
         for (int i = 0; i < linea.size(); i++) {
             if (linea[i] == '=') {
                 indiceCortar = i;
-                busqueda = buscarNombreVariable(linea.substr(0,i));
+                busqueda = buscarNombreVariable(0,linea.substr(0,i));
                 break;
             }
         }
@@ -253,7 +253,7 @@ void lectorTextEdit::agregarInstruccion(string linea, int numeroLinea, int scope
     }
     int indice;
     try {
-        indice = stoi(buscarNombreVariable(nombre));
+        indice = stoi(buscarNombreVariable(0,nombre));
         definirOperacionSobreVariable(linea,nombre,scope,listaInstrucciones[indice].getTipoVariable(),numeroLinea);
     } catch (std::invalid_argument& e) {
         definirOperacionSobreVariable(linea,nombre,0,"ND",numeroLinea);
@@ -289,53 +289,54 @@ vector<vector<string>> lectorTextEdit::ordenarOperaciones(vector<int> entrada, s
     return variables;
 }
 
-vector<string> lectorTextEdit::buscarValor(string nombre, string tipo, int scope) {
+string lectorTextEdit::buscarValor(string nombre, string tipo, int scope) {
     Grafo aux;
-    vector<string> result = {"",""};
+    string result;
     for (int i = 0; i < listaInstrucciones.size(); i++) {
         aux = listaInstrucciones[i];
-        if (nombre == aux.getNombreVariable()) {
+        if (nombre == aux.getNombreVariable() && buscarNombreVariable(i,nombre) != "ERROR_VARIABLE_NO_DEFINIDA") {
             if (aux.getScope() <= scope) {
                 if (tipo == "int") {
                     if (aux.getTipoVariable() == "int") {
-                        result[0] = aux.getContenido();
-                        result[1] = aux.getTipoVariable();
+                        aumentarReferenciaVariable(aux.getNombreVariable());
+                        result = aux.getContenido();
+                        cout <<"El resultado es: "<< result <<endl;
                         return result;
                     }
                     if (aux.getTipoVariable() == "float" || aux.getTipoVariable() == "double" || aux.getTipoVariable() == "long") {
-                        result[0] = std::to_string(stoi(aux.getContenido()));
-                        result[1] = aux.getTipoVariable();
+                        result = std::to_string(stoi(aux.getContenido()));
+                        aumentarReferenciaVariable(aux.getNombreVariable());
                         return result;
                     }
                     if (aux.getTipoVariable() == "char") {
-                        result[0] = std::to_string(aux.getContenido()[1] - 0);
-                        result[1] = aux.getTipoVariable();
+                        result = std::to_string(aux.getContenido()[1] - 0);
+                        aumentarReferenciaVariable(aux.getNombreVariable());
                         return result;
                     }
                 }
                 if (tipo == "float" || tipo == "double" || tipo == "long") {
                     if (aux.getTipoVariable() == "float" || aux.getTipoVariable() == "double" || aux.getTipoVariable() == "int" || aux.getTipoVariable() == "long") {
-                        result[0] = aux.getContenido();
-                        result[1] = aux.getTipoVariable();
+                        result = aux.getContenido();
+                        aumentarReferenciaVariable(aux.getNombreVariable());
                         return result;
                     }
                     if (aux.getTipoVariable() == "char") {
-                        result[0] = std::to_string(aux.getContenido()[1] - 0);
-                        result[1] = aux.getTipoVariable();
+                        result = std::to_string(aux.getContenido()[1] - 0);
+                        aumentarReferenciaVariable(aux.getNombreVariable());
                         return result;
                     }
                 }
             } else {
-                result[0] = "ERROR_VARIABLE_FUERA_SCOPE";
+                result = "ERROR_VARIABLE_FUERA_SCOPE";
                 return result;
             }
         }
     }
     if (tipo == "char") {
-        result[0] = nombre;
+        result = nombre;
         return result;
     }
-    result[0] = "ERROR_VARIABLE_NO_DEFINIDA";
+    result = "ERROR_VARIABLE_NO_DEFINIDA";
     return result;
 }
 
@@ -359,7 +360,7 @@ void lectorTextEdit::estructurarDefinicion(string linea, int numeroLinea, int sc
         nombre += linea[i];
     }
     instruccion.setNombreVariable(nombre);
-
+    aumentarReferenciaVariable(nombre);
     string valor = analizarLinea(scope,numeroLinea,nombre,tipo,linea,valorAsignado);
     instruccion.setContendido(valor);
     listaInstrucciones.push_back(instruccion);
@@ -392,7 +393,7 @@ string lectorTextEdit::realizarOperacion(vector<vector<string>> operaciones,stri
             stoi(operaciones[0][i]);
         } catch(std::invalid_argument& e) {
             try {
-                valores[i] = stoi(buscarValor(operaciones[0][i],tipo,scope)[0]);
+                valores[i] = stoi(buscarValor(operaciones[0][i],tipo,scope));
             } catch(std::invalid_argument& e) {
             }
         }
@@ -416,9 +417,9 @@ string lectorTextEdit::realizarOperacion(vector<vector<string>> operaciones,stri
     return resultado;
 }
 
-string lectorTextEdit::buscarNombreVariable(string nombre) {
+string lectorTextEdit::buscarNombreVariable(int inicio, string nombre) {
     Grafo aux;
-    for (int i = 0; i < listaInstrucciones.size(); i++) {
+    for (int i = inicio; i < listaInstrucciones.size(); i++) {
         aux = listaInstrucciones[i];
         if (aux.getNombreVariable() == nombre) {
             return std::to_string(i);
@@ -474,12 +475,16 @@ string lectorTextEdit::analizarLinea(int scope, int numeroLinea, string nombre, 
                 stoi(valor);
             } catch(std::invalid_argument& e) {
                 if ( valor  != "ERROR_FALTA_PARENTESIS") {
-                    vector<string> busqueda = buscarValor(valor,tipo,scope);
-                    if (busqueda[0] == "ERROR_VARIABLE_NO_DEFINIDA") {
+                    valorAux = buscarValor(valor,tipo,scope);
+                    if (valorAux == "ERROR_VARIABLE_NO_DEFINIDA") {
                         valor = valor + " no está definida ";
+                    } else {
+                        valor = valorAux;
                     }
-                    if (busqueda[0] == "ERROR_VARIABLE_FUERA_SCOPE") {
+                    if (valorAux == "ERROR_VARIABLE_FUERA_SCOPE") {
                         valor = valor + " no está dentro del scope de: " + nombre;
+                    } else {
+                        valor = valorAux;
                     }
                 } else {
                     valor = "Falta un paréntesis en la línea: "+std::to_string(numeroLinea);
@@ -499,17 +504,30 @@ string lectorTextEdit::analizarLinea(int scope, int numeroLinea, string nombre, 
 
 void lectorTextEdit::imprimir(string texto) {
     Grafo aux = Grafo();
-    cout << texto;
-    string nombre = buscarNombreVariable(texto);
+    texto = texto.substr(0,texto.size()-1);
+    string nombre = buscarNombreVariable(0,texto);
     if (nombre == "ERROR_VARIABLE_NO_DEFINIDA") {
         aux.setContendido(texto);
+        cout << "el contenido es: " << texto;
         aux.setNombreVariable("Cout");
     } else {
         aux.setNombreVariable(texto);
         aux.setContendido(listaInstrucciones[stoi(nombre)].getContenido());
     }
+    listaInstrucciones.push_back(aux);
 }
 
 std::vector<Grafo> lectorTextEdit::getListaInstrucciones() {
     return listaInstrucciones;
+}
+
+void lectorTextEdit::aumentarReferenciaVariable(string nombre) {
+    for (int i = 0; i < numReferenciaVariables[0].size(); i++) {
+        if (nombre == numReferenciaVariables[0][i]) {
+            numReferenciaVariables[1][i] = stoi(numReferenciaVariables[1][i]) + 1;
+            return;
+        }
+    }
+    numReferenciaVariables[0].push_back(nombre);
+    numReferenciaVariables[1].push_back(to_string(1));
 }

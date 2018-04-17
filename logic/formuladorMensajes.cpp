@@ -87,6 +87,7 @@ formuladorMensajes::formuladorMensajes(int id, vector<vector<string>> refenciasV
     QJsonObject nuevo = QJsonObject();
     nuevo.insert("id",QString::fromStdString(std::to_string(id)));
     string res;
+    if (refenciasVariables[0].empty()) { return;}
     for (int i = 0; i < refenciasVariables[0].size()-1; i++) {
         res+= "-";
         res += refenciasVariables[0][i];

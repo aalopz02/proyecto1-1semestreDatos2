@@ -45,7 +45,7 @@ public:
     void ejecutarCodigo(QTextEdit *log, QTextEdit *salida);
     std::vector<Grafo> getListaInstrucciones();
 private:
-    vector<vector<string>> numReferenciaVariables;
+    vector<vector<string>> numReferenciaVariables = {{},{}};
     /**
      * @brief output : puntero a la salida stdout del IDE
      */
@@ -79,6 +79,7 @@ private:
      * @brief cantidadTipoDatos : Vector que almacena las referencias a cada tipo para enviarlo  al servidor de memoria
      */
     std::vector<int> cantidadTiposDatos = {0, 0, 0, 0, 0};
+    void aumentarReferenciaVariable(string nombre);
     /**
      * @brief dividirLectura : Lee linea por línea y envía lo leído a agregarinstruccion() además de definir el scope de una línea
      */
@@ -136,9 +137,9 @@ private:
      * @param nombre : Nombre de la variable a buscar
      * @param tipo : Tipo de variable a la que se asignará el valor
      * @param scope : Scope de la variable a la que se asignar el valor
-     * @return : Lista que contiene el valor encontrado
+     * @return : Valor encontrado
      */
-    vector<string> buscarValor(string nombre, string tipo, int scope);
+    string buscarValor(string nombre, string tipo, int scope);
     /**
      * @brief ordenarOperaciones : Lee los nombres que están en una operación para luego buscar los valores correspondientes
      * @param entrada : Lista que contiene los índices en donde se encontró un operador
@@ -160,9 +161,10 @@ private:
     /**
      * @brief buscarNombreVariable : Función que busca si un string se encuentra definido como variable
      * @param nombre : Nombre a buscar
+     * @param inicio : Indice en donde se va a iniciar la busqueda
      * @return : El índice de la lista de instrucciones donde se encontró o error de búsqueda
      */
-    string buscarNombreVariable(string nombre);
+    string buscarNombreVariable(int inicio, string nombre);
     /**
      * @brief definirOperacionSobreVariable : Agrega una nueva instrucción que corresponde una operación a la lista de instrucciones
      * @param linea : Línea a leer

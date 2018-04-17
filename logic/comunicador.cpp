@@ -3,3 +3,11 @@
 //
 
 #include "../headers/comunicador.h"
+
+void comunicador::sendMsj(QJsonObject mensaje) {
+
+}
+
+comunicador::comunicador() {
+
+}
