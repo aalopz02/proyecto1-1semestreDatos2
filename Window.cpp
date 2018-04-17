@@ -153,7 +153,7 @@ void Window::BotonAvanzarDebug() {
     if (lineaActual == instrucciones.size()) {
         BotonDetenerEjecucionCodigo();
         log->setText("Fin ejecución\n\n\n\n");
-        lineaActual = 0;
+        return;
     } else {
         salida->setText(QString::fromStdString(instrucciones[lineaActual].getNombreVariable() +" -> "+ instrucciones[lineaActual].getContenido()));
     }
