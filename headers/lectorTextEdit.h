@@ -121,7 +121,7 @@ private:
      * @brief imprimir : Función que escribe en el stdout
      * @param texto : Texto a imprimir
      */
-    void imprimir(string texto);
+    void imprimir(string texto, int numLinea);
     /**
      * @brief definirOperacion : Función que dependiendo dela variable enStruct realiza distintas llamadas a funciones
      * @param linea : Texto que corresponde a la línea a leer
@@ -185,7 +185,7 @@ private:
      * @return : Texto que corresponde al valor de la variable
      */
     string analizarLinea(int scope, int numeroLinea, string nombre, string tipo, string linea, int valorAsignado);
-
+    void crearVariablesStruct(int scope, int numeroLinea, string linea);
 };
 
 #endif //PROYECTO1_LECTORTEXTEDIT_H

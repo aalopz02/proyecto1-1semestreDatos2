@@ -31,6 +31,7 @@ Window::Window(QWidget *parent) :
     editor->setGeometry(25, 0, 640, 500);
     editor->show();
     editor->setFrameStyle(1);
+    editor->setAutoFillBackground(false);
 
     numLineas = new QLabel(this);
     numLineas->setGeometry(0, 0, 25, 500);
@@ -134,6 +135,7 @@ void Window::BotonDetenerEjecucionCodigo() {
     siguienteDebug->hide();
     editor->setReadOnly(false);
     lineaActual = 0;
+    indiceInstrucciones = 0;
 }
 
 void Window::BotonDebugCodigo() {
@@ -150,16 +152,37 @@ void Window::BotonDebugCodigo() {
 }
 
 void Window::BotonAvanzarDebug() {
-    if (lineaActual == instrucciones.size()) {
+    if (indiceInstrucciones == instrucciones.size()) {
         BotonDetenerEjecucionCodigo();
         log->setText("Fin ejecución\n\n\n\n");
+        numLineas->setText(QString::fromStdString(agregarLineas()));
         return;
     } else {
-        salida->setText(QString::fromStdString(instrucciones[lineaActual].getNombreVariable() +" -> "+ instrucciones[lineaActual].getContenido()));
+        string contenido;
+        if (instrucciones[indiceInstrucciones].getContenido().empty()) {
+            contenido = "0";
+        } else {
+            contenido = instrucciones[indiceInstrucciones].getContenido();
+        }
+        salida->setText(QString::fromStdString(instrucciones[indiceInstrucciones].getNombreVariable() +" -> "+ contenido));
+        lineaActual = instrucciones[indiceInstrucciones].getNumeroLinea();
+        cout << "numLinea actual: " << lineaActual << endl;
+        mostrarLinea();
+        indiceInstrucciones ++;
     }
-    lineaActual ++;
 }
 
 void Window::mostrarLinea() {
-
+    string resultado;
+    for (int i = 0; i <numeroMaxLinea; i++) {
+        if (i == lineaActual) {
+            resultado += "->\n";
+        } else {
+            if (std::to_string(i).size() == 1) {
+                resultado += "  ";
+            }
+            resultado += std::to_string(i)+"\n";
+        }
+    }
+    numLineas->setText(QString::fromStdString(resultado));
 }

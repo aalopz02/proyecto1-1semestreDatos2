@@ -13,6 +13,7 @@
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolButton>
 #include <QtCore/QCoreApplication>
+#include <QtGui/QTextBlock>
 #include "headers/lectorTextEdit.h"
 
 using namespace std;
@@ -86,6 +87,7 @@ private:
      * @brief lineaActual : Entero que contiene la línea por donde va la ejecución
      */
     int lineaActual = 0;
+    int indiceInstrucciones = 0;
     /**
      * @brief agregarLineas : Función que agrega números de líneas
      * @return : String con los números de línea

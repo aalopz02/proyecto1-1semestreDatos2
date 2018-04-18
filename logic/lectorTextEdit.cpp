@@ -4,8 +4,8 @@
 
 #include "../headers/lectorTextEdit.h"
 #include "../dependencias/exprtk.hpp"
-#include "../headers/formuladorMensajes.h"
-#include "../headers/comunicador.h"
+#include "../dependencias/Server/headers/comunicador.h"
+#include "../dependencias/Server/headers/formuladorMensajes.h"
 
 lectorTextEdit::lectorTextEdit(QString lecturaEditor) {
     lectura = lecturaEditor.toStdString();
@@ -78,10 +78,12 @@ void lectorTextEdit::dividirLectura() {
             if (linea == "}//final") {
                 break;
             }
-            agregarInstruccion(linea,numLinea,scope);
+            cout << "Linea: " << linea<< endl;
+            if (!linea.empty()) {
+                agregarInstruccion(linea,numLinea,scope);
+            }
             numLinea ++;
         }
-
     }
     file.close();
     comunicador com = comunicador();
@@ -125,6 +127,7 @@ void lectorTextEdit::agregarMachoteEstructura(string linea) {
     nombreStructAux = nombre;
     nombreEstructuras.push_back(nombre);
     cout << "nombre struct: " << nombre << endl;
+
 }
 
 void lectorTextEdit::agregarMiembroEstructura(string linea, string tipo) {
@@ -147,6 +150,9 @@ void lectorTextEdit::definirOperacion(string linea, int numeroLinea, int scope, 
     if (def == "miembroStruct") {
         agregarMiembroEstructura(linea,tipo);
     }
+    if (def == "asignacionStruct") {
+        crearVariablesStruct(scope, numeroLinea, linea);
+    }
     if (def == "operacion") {
         string busqueda;
         int indiceCortar = 0;
@@ -167,9 +173,13 @@ void lectorTextEdit::definirOperacion(string linea, int numeroLinea, int scope, 
             definirOperacionSobreVariable(linea,linea.substr(0,indiceCortar),scope,tipo,numeroLinea);
         }
     }
+    if (def == "getValue") {
+
+    }
 }
 
 void lectorTextEdit::agregarInstruccion(string linea, int numeroLinea, int scope) {
+    Grafo aux;
     linea.erase(std::remove(linea.begin(), linea.end(), ' '), linea.end());
     if (linea.substr(0,3) == "int") {
         definirOperacion(linea, numeroLinea, scope, enStruct, "int",3);
@@ -212,8 +222,9 @@ void lectorTextEdit::agregarInstruccion(string linea, int numeroLinea, int scope
         enStruct = "miembroStruct";
         return;
     }
-    if (linea.substr(0,1) == "};") {
+    if (linea.substr(0,2) == "};") {
         enStruct = "def";
+
         return;
     }
     if (linea.substr(0,9) == "reference_") {
@@ -241,7 +252,7 @@ void lectorTextEdit::agregarInstruccion(string linea, int numeroLinea, int scope
         return;
     }
     if (linea.substr(0,4) == "cout") {
-        imprimir(linea.substr(6, linea.size() - 2));
+        imprimir(linea.substr(6, linea.size() - 2), numeroLinea);
         return;
     }
     string nombre;
@@ -361,7 +372,12 @@ void lectorTextEdit::estructurarDefinicion(string linea, int numeroLinea, int sc
     }
     instruccion.setNombreVariable(nombre);
     aumentarReferenciaVariable(nombre);
-    string valor = analizarLinea(scope,numeroLinea,nombre,tipo,linea,valorAsignado);
+    string valor;
+    if (valorAsignado != 0) {
+        valor = analizarLinea(scope,numeroLinea,nombre,tipo,linea,valorAsignado);
+    } else {
+        valor = "0";
+    }
     instruccion.setContendido(valor);
     listaInstrucciones.push_back(instruccion);
 
@@ -502,8 +518,9 @@ string lectorTextEdit::analizarLinea(int scope, int numeroLinea, string nombre, 
     return valor;
 }
 
-void lectorTextEdit::imprimir(string texto) {
+void lectorTextEdit::imprimir(string texto, int numLinea) {
     Grafo aux = Grafo();
+    aux.setNumeroLinea(numLinea);
     texto = texto.substr(0,texto.size()-1);
     string nombre = buscarNombreVariable(0,texto);
     if (nombre == "ERROR_VARIABLE_NO_DEFINIDA") {
@@ -530,4 +547,54 @@ void lectorTextEdit::aumentarReferenciaVariable(string nombre) {
     }
     numReferenciaVariables[0].push_back(nombre);
     numReferenciaVariables[1].push_back(to_string(1));
+}
+
+void lectorTextEdit::crearVariablesStruct(int scope, int numeroLinea, string linea) {
+    Grafo aux = Grafo();
+    linea = linea.substr(6,linea.size()-1);
+    string nombreTipoStruct;
+    string nombreStruct;
+    for (int i = 0; i < linea.size()-1; i++) {
+        nombreTipoStruct += linea[i];
+        for (int j = 0; j < nombreEstructuras.size(); j++) {
+            if (nombreEstructuras[j] == nombreTipoStruct) {
+                nombreStruct = linea.substr(i+1,linea.size()-2);
+                i = linea.size();
+                break;
+            }
+        }
+    }
+    if (nombreTipoStruct == linea) {
+        aux.setContendido("La estructura " + nombreTipoStruct + " no se encuentra definida");
+        aux.setNumeroLinea(numeroLinea);
+        aux.setScope(scope);
+        listaInstrucciones.push_back(aux);
+        cout << "No se encuentra la estructura a definir"<<endl;
+    } else {
+        string nombreStructMiembro;
+        vector<string> miembros;
+        for (int i = 0; i < miembrosEstructuras[0].size(); i++) {
+            cout << "Miembro Struct " << miembrosEstructuras[0][i] << endl;
+            for (int j = 0; j < miembrosEstructuras[0][i].size(); j++) {
+                if (miembrosEstructuras[0][i][j] == '.') {
+                    break;
+                }
+                nombreStructMiembro += miembrosEstructuras[0][i][j];
+            }
+            cout << "NombreStructMiembro " << nombreStructMiembro << endl;
+            if (nombreStructMiembro == nombreTipoStruct) {
+                miembros.push_back(miembrosEstructuras[0][i].substr(nombreStructMiembro.size()+1,miembrosEstructuras[0][i].size()));
+            }
+            else {
+                break;
+            }
+            nombreStructMiembro = "";
+        }
+        nombreStructMiembro = "";
+        for (int i = 0; i < miembros.size(); i++) {
+            nombreStructMiembro = nombreStruct+"."+miembros[i]+";";
+            cout << "Nombre miembro struct definido: " << nombreStructMiembro << endl;
+            estructurarDefinicion(nombreStructMiembro,numeroLinea,scope,miembrosEstructuras[1][0],0);
+        }
+    }
 }

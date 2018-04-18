@@ -45,7 +45,7 @@ int Grafo::getNumeroLinea() {
 }
 
 void Grafo::setNumeroLinea(int numero) {
-    numeroLinea = numero;
+    numeroLinea = numero-6;
 }
 
 string Grafo::getNombreVariable() {
