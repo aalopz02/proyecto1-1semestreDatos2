@@ -5,7 +5,7 @@
 #ifndef PROYECTO1_LECTORTEXTEDIT_H
 #define PROYECTO1_LECTORTEXTEDIT_H
 
-#include "Grafo.h"
+#include "../dependencias/Server/headers/Grafo.h"
 #include <thread>
 #include <fstream>
 #include <QtCore/QString>
@@ -23,7 +23,6 @@ public:
      * @param lecturaEditor : Texto a leer
      */
     lectorTextEdit(QString lecturaEditor);
-
     /**
      * @brief generarSalidaCodigo : Función que crea el archivo completo con la lectura y demás necesario
      * para que pueda ser compliado
@@ -43,8 +42,15 @@ public:
      * @param salida : QTextEdit que corresponde a la salida de texto del IDE
      */
     void ejecutarCodigo(QTextEdit *log, QTextEdit *salida);
+    /**
+     * @brief getListaInstruccciones : Función para obtener la lista de instrucciones creadas
+     * @return : Lista con las instrucciones creadas
+     */
     std::vector<Grafo> getListaInstrucciones();
 private:
+    /**
+     * @brief numREferenciaVariables : Lista que contiene las referencias a una variable por nombre
+     */
     vector<vector<string>> numReferenciaVariables = {{},{}};
     /**
      * @brief output : puntero a la salida stdout del IDE
@@ -79,6 +85,10 @@ private:
      * @brief cantidadTipoDatos : Vector que almacena las referencias a cada tipo para enviarlo  al servidor de memoria
      */
     std::vector<int> cantidadTiposDatos = {0, 0, 0, 0, 0};
+    /**
+    * @brief aumentarReferenciaVariable : Aumenta la cantidad de veces que se hace referencia a una variable
+    * @param nombre : Nombre de la variable a aumentar
+    */
     void aumentarReferenciaVariable(string nombre);
     /**
      * @brief dividirLectura : Lee linea por línea y envía lo leído a agregarinstruccion() además de definir el scope de una línea
@@ -185,6 +195,12 @@ private:
      * @return : Texto que corresponde al valor de la variable
      */
     string analizarLinea(int scope, int numeroLinea, string nombre, string tipo, string linea, int valorAsignado);
+    /**
+     * @brief crearVariablesStruct : Lee la asignación a una estructura y crea los miembros
+     * @param scope : Scope de la estructura
+     * @param numeroLinea : Número línea
+     * @param linea : Texto que corresponde a la línea a leer
+     */
     void crearVariablesStruct(int scope, int numeroLinea, string linea);
 };
 

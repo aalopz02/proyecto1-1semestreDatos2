@@ -40,8 +40,12 @@ string GetStdoutFromCommand(string cmd, char modo) {
 void lectorTextEdit::debugCodigo(QTextEdit *log,QTextEdit *salida) {
     output = salida;
     string texto = GetStdoutFromCommand("c++ -g a.cpp",1);
-    log->setText(QString::fromStdString(texto));
-    dividirLectura();
+    if (texto.empty()) {
+        log->setText("Programa compilado correctamente");
+        dividirLectura();
+    } else {
+        log->setText(QString::fromStdString(texto));
+    }
 }
 
 void lectorTextEdit::ejecutarCodigo(QTextEdit *log,QTextEdit *salida) {
@@ -57,7 +61,6 @@ void lectorTextEdit::generarSalidaCodigo() {
             "typedef int * reference_int;typedef long * reference_long;typedef float * reference_float;typedef double * reference_double;typedef char * reference_char;\n"
             "using namespace std;\nint main(){\n"+lectura+"\n"+"}//final";
     file.close();
-
 }
 
 void lectorTextEdit::dividirLectura() {
@@ -78,7 +81,6 @@ void lectorTextEdit::dividirLectura() {
             if (linea == "}//final") {
                 break;
             }
-            cout << "Linea: " << linea<< endl;
             if (!linea.empty()) {
                 agregarInstruccion(linea,numLinea,scope);
             }
@@ -86,14 +88,6 @@ void lectorTextEdit::dividirLectura() {
         }
     }
     file.close();
-    comunicador com = comunicador();
-    formuladorMensajes prueba = formuladorMensajes(11);
-    com.sendMsj(prueba.getMensaje());
-    formuladorMensajes msjCantidadTipo = formuladorMensajes(26,cantidadTiposDatos);
-    com.sendMsj(msjCantidadTipo.getMensaje());
-    formuladorMensajes msjCantidadReferencias = formuladorMensajes(27,numReferenciaVariables);
-    com.sendMsj(msjCantidadReferencias.getMensaje());
-
 }
 
 void lectorTextEdit::agregarCantidadTiposDatos(int dato) {
@@ -126,8 +120,6 @@ void lectorTextEdit::agregarMachoteEstructura(string linea) {
     }
     nombreStructAux = nombre;
     nombreEstructuras.push_back(nombre);
-    cout << "nombre struct: " << nombre << endl;
-
 }
 
 void lectorTextEdit::agregarMiembroEstructura(string linea, string tipo) {
@@ -137,7 +129,6 @@ void lectorTextEdit::agregarMiembroEstructura(string linea, string tipo) {
     }
     miembrosEstructuras[0].push_back(nombreStructAux+"."+nombre);
     miembrosEstructuras[1].push_back(tipo);
-    cout << "miembro struct: " << nombreStructAux+"."+nombre << ", " << tipo << endl;
 }
 
 void lectorTextEdit::definirOperacion(string linea, int numeroLinea, int scope, string def, string tipo, int indice) {
@@ -216,15 +207,8 @@ void lectorTextEdit::agregarInstruccion(string linea, int numeroLinea, int scope
         }
         return;
     }
-    if (linea.substr(0,6) == "struct" && linea[linea.size()-1] == '{') {
-        enStruct = "defstruct";
-        definirOperacion(linea, numeroLinea, 0, enStruct, "",0);
-        enStruct = "miembroStruct";
-        return;
-    }
     if (linea.substr(0,2) == "};") {
         enStruct = "def";
-
         return;
     }
     if (linea.substr(0,9) == "reference_") {
@@ -245,10 +229,16 @@ void lectorTextEdit::agregarInstruccion(string linea, int numeroLinea, int scope
         enStruct = "def";
         return;
     }
-    if (linea.substr(0,6) == "struct") {
+    if (linea.substr(0,6) == "struct" && linea[linea.size()-1] == ';') {
         enStruct = "asignacionStruct";
         definirOperacion(linea, numeroLinea, scope, enStruct,"",0);
         enStruct = "def";
+        return;
+    }
+    if (linea.substr(0,6) == "struct" && linea[linea.size()-1] == '{') {
+        enStruct = "defstruct";
+        definirOperacion(linea, numeroLinea, 0, enStruct, "",0);
+        enStruct = "miembroStruct";
         return;
     }
     if (linea.substr(0,4) == "cout") {
@@ -558,7 +548,7 @@ void lectorTextEdit::crearVariablesStruct(int scope, int numeroLinea, string lin
         nombreTipoStruct += linea[i];
         for (int j = 0; j < nombreEstructuras.size(); j++) {
             if (nombreEstructuras[j] == nombreTipoStruct) {
-                nombreStruct = linea.substr(i+1,linea.size()-2);
+                nombreStruct = linea.substr(i+1,linea.size()-1);
                 i = linea.size();
                 break;
             }
@@ -569,19 +559,16 @@ void lectorTextEdit::crearVariablesStruct(int scope, int numeroLinea, string lin
         aux.setNumeroLinea(numeroLinea);
         aux.setScope(scope);
         listaInstrucciones.push_back(aux);
-        cout << "No se encuentra la estructura a definir"<<endl;
     } else {
         string nombreStructMiembro;
         vector<string> miembros;
         for (int i = 0; i < miembrosEstructuras[0].size(); i++) {
-            cout << "Miembro Struct " << miembrosEstructuras[0][i] << endl;
             for (int j = 0; j < miembrosEstructuras[0][i].size(); j++) {
                 if (miembrosEstructuras[0][i][j] == '.') {
                     break;
                 }
                 nombreStructMiembro += miembrosEstructuras[0][i][j];
             }
-            cout << "NombreStructMiembro " << nombreStructMiembro << endl;
             if (nombreStructMiembro == nombreTipoStruct) {
                 miembros.push_back(miembrosEstructuras[0][i].substr(nombreStructMiembro.size()+1,miembrosEstructuras[0][i].size()));
             }
@@ -591,10 +578,16 @@ void lectorTextEdit::crearVariablesStruct(int scope, int numeroLinea, string lin
             nombreStructMiembro = "";
         }
         nombreStructMiembro = "";
+        enStruct = "def";
         for (int i = 0; i < miembros.size(); i++) {
-            nombreStructMiembro = nombreStruct+"."+miembros[i]+";";
-            cout << "Nombre miembro struct definido: " << nombreStructMiembro << endl;
-            estructurarDefinicion(nombreStructMiembro,numeroLinea,scope,miembrosEstructuras[1][0],0);
+            nombreStructMiembro.append(miembrosEstructuras[1][i]);
+            nombreStructMiembro.append(nombreStruct.substr(0,nombreStruct.size()-1));
+            nombreStructMiembro.append(".");
+            nombreStructMiembro.append(miembros[i]);
+            nombreStructMiembro.append(";");
+            agregarInstruccion(nombreStructMiembro,numeroLinea,scope);
+            nombreStructMiembro = "";
         }
+
     }
 }

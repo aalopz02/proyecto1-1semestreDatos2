@@ -31,7 +31,6 @@ Window::Window(QWidget *parent) :
     editor->setGeometry(25, 0, 640, 500);
     editor->show();
     editor->setFrameStyle(1);
-    editor->setAutoFillBackground(false);
 
     numLineas = new QLabel(this);
     numLineas->setGeometry(0, 0, 25, 500);
@@ -149,6 +148,9 @@ void Window::BotonDebugCodigo() {
     siguienteDebug->show();
     editor->setReadOnly(true);
     instrucciones = lectura.getListaInstrucciones();
+    if (instrucciones.empty()) {
+        BotonDetenerEjecucionCodigo();
+    }
 }
 
 void Window::BotonAvanzarDebug() {
@@ -166,7 +168,6 @@ void Window::BotonAvanzarDebug() {
         }
         salida->setText(QString::fromStdString(instrucciones[indiceInstrucciones].getNombreVariable() +" -> "+ contenido));
         lineaActual = instrucciones[indiceInstrucciones].getNumeroLinea();
-        cout << "numLinea actual: " << lineaActual << endl;
         mostrarLinea();
         indiceInstrucciones ++;
     }

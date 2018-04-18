@@ -16,8 +16,8 @@ add_executable(Proyecto1 main.cpp
         Window.h
         logic/lectorTextEdit.cpp
         headers/lectorTextEdit.h
-        logic/Grafo.cpp
-        headers/Grafo.h
+        dependencias/Server/logic/Grafo.cpp
+        dependencias/Server/headers/Grafo.h
         dependencias/Server/headers/formuladorMensajes.h
         dependencias/Server/headers/Servidor.h
         dependencias/Server/headers/memReserver.h
