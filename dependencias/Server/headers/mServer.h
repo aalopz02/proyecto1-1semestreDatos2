@@ -2,8 +2,8 @@
 // Created by andres on 11/03/18.
 //
 
-#ifndef TAREACORTA_MSERVER_H
-#define TAREACORTA_MSERVER_H
+#ifndef Server_MSERVER_H
+#define Server_MSERVER_H
 
 #include <iostream>
 #include "../../Server/headers/memReserver.h"
@@ -15,6 +15,10 @@ using  namespace std;
 class mServer {
 
 private:
+    /**
+     * @brief numReferenciasVariables : Arreglo que contiene la cantidad de referencias por cada variable
+     */
+    vector<vector<string>> numReferenciaVariables;
     /**
      * @brief mServer : Constructor de la clase privado para que no se pueda instanciar por fuera de la clase
      */
@@ -31,8 +35,12 @@ private:
       * @brief instrucciones : Lista de las variables a manejar
       */
      vector<Grafo> instrucciones;
+     string contenidoCuadroRam;
 
 public:
+    string leerValor();
+    int getCantidadReferencias(string nombre);
+    void setContenidoCuadroRam();
     /**
      * @brief memReserver1 : Instancia de la clase para reserva de memoria
      */
@@ -57,7 +65,11 @@ public:
      * @return : Mapa de la memoria
      */
     vector<vector<string>> obtenerMapaMemoria();
+    void limpiarMemoria();
+    void setLibrememoria(string nombre);
+    void setInstrucciones(vector<Grafo> entrada);
+    void setNumeroReferenciasVariables(vector<vector<string>> numeroReferencias);
 
 };
 
-#endif //TAREACORTA_MSERVER_H
+#endif //Server_MSERVER_H

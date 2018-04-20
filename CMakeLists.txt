@@ -19,7 +19,6 @@ add_executable(Proyecto1 main.cpp
         dependencias/Server/logic/Grafo.cpp
         dependencias/Server/headers/Grafo.h
         dependencias/Server/headers/formuladorMensajes.h
-        dependencias/Server/headers/Servidor.h
         dependencias/Server/headers/memReserver.h
         dependencias/Server/headers/mServer.h
         dependencias/Server/headers/comunicador.h
@@ -27,7 +26,7 @@ add_executable(Proyecto1 main.cpp
         dependencias/Server/logic/comunicador.cpp
         dependencias/Server/logic/memReserver.cpp
         dependencias/Server/logic/mServer.cpp
-        dependencias/Server/logic/Servidor.cpp)
+        )
 
 
 target_link_libraries(Proyecto1 Qt5::Widgets Qt5::Core ${Boost_LIBRARIES})

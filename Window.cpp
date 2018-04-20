@@ -46,7 +46,7 @@ Window::Window(QWidget *parent) :
     salida->show();
 
     log = new QTextEdit("", this);
-    log->setText("\n\n\n\n");
+    log->setText("IDE iniciado");
     log->setFrameStyle(1);
     log->setGeometry(0, 575, 900, 75);
     log->setReadOnly(true);
@@ -112,7 +112,7 @@ void Window::quitMyApp() {
 }
 
 void Window::BotonClearLog() {
-    log->setText(QString::fromStdString("\n\n\n\n"));
+    log->setText(QString::fromStdString(""));
 }
 
 QString Window::obtenerLecturaEditor() {
@@ -133,11 +133,16 @@ void Window::BotonDetenerEjecucionCodigo() {
     ejecutar->setEnabled(true);
     siguienteDebug->hide();
     editor->setReadOnly(false);
+    if (indiceInstrucciones != instrucciones.size()) {
+        log->append("Ejecución detenida");
+    }
     lineaActual = 0;
     indiceInstrucciones = 0;
+    log->append("Fin ejecución");
 }
 
 void Window::BotonDebugCodigo() {
+    log->append("Iniciando Debug");
     if (obtenerLecturaEditor().size() == 0){
         return;
     }
@@ -148,6 +153,7 @@ void Window::BotonDebugCodigo() {
     siguienteDebug->show();
     editor->setReadOnly(true);
     instrucciones = lectura.getListaInstrucciones();
+    log->append("Instrucciones leídas");
     if (instrucciones.empty()) {
         BotonDetenerEjecucionCodigo();
     }
@@ -156,7 +162,6 @@ void Window::BotonDebugCodigo() {
 void Window::BotonAvanzarDebug() {
     if (indiceInstrucciones == instrucciones.size()) {
         BotonDetenerEjecucionCodigo();
-        log->setText("Fin ejecución\n\n\n\n");
         numLineas->setText(QString::fromStdString(agregarLineas()));
         return;
     } else {
@@ -169,6 +174,7 @@ void Window::BotonAvanzarDebug() {
         salida->setText(QString::fromStdString(instrucciones[indiceInstrucciones].getNombreVariable() +" -> "+ contenido));
         lineaActual = instrucciones[indiceInstrucciones].getNumeroLinea();
         mostrarLinea();
+        actualizarCuadroRam();
         indiceInstrucciones ++;
     }
 }
@@ -186,4 +192,8 @@ void Window::mostrarLinea() {
         }
     }
     numLineas->setText(QString::fromStdString(resultado));
+}
+
+string Window::actualizarCuadroRam() {
+    return "";
 }

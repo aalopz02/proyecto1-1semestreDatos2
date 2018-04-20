@@ -49,6 +49,10 @@ public:
     std::vector<Grafo> getListaInstrucciones();
 private:
     /**
+     * @brief inicializarMemoria : Funci[on que env[ia un mensaje al comunicador para inicalizar el bloque de memoria
+     */
+    void inicializarMemoria(QTextEdit *log);
+    /**
      * @brief numREferenciaVariables : Lista que contiene las referencias a una variable por nombre
      */
     vector<vector<string>> numReferenciaVariables = {{},{}};
@@ -93,8 +97,7 @@ private:
     /**
      * @brief dividirLectura : Lee linea por línea y envía lo leído a agregarinstruccion() además de definir el scope de una línea
      */
-    void dividirLectura();
-
+    void dividirLectura(QTextEdit *log);
     /**
      * @brief agregarCantidadTiposDatos : Función que dependiendo del tipo de dato incrementa las referencias a un tipop de dato
      * @param dato : Tipo del dato encontrado
@@ -171,10 +174,9 @@ private:
     /**
      * @brief buscarNombreVariable : Función que busca si un string se encuentra definido como variable
      * @param nombre : Nombre a buscar
-     * @param inicio : Indice en donde se va a iniciar la busqueda
-     * @return : El índice de la lista de instrucciones donde se encontró o error de búsqueda
+     * @return : El índice de la lista de instrucciones donde se encontró de lo contrario un error de búsqueda
      */
-    string buscarNombreVariable(int inicio, string nombre);
+    string buscarNombreVariable(string nombre);
     /**
      * @brief definirOperacionSobreVariable : Agrega una nueva instrucción que corresponde una operación a la lista de instrucciones
      * @param linea : Línea a leer

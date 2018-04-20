@@ -2,10 +2,11 @@
 // Created by andres on 28/03/18.
 //
 
-#ifndef SERVER_GRAFO_H
-#define SERVER_GRAFO_H
+#ifndef Server_GRAFO_H
+#define Server_GRAFO_H
 
 #include <iostream>
+#include <QtCore/QJsonObject>
 
 using namespace std;
 /**
@@ -14,6 +15,7 @@ using namespace std;
 class Grafo {
 
 private:
+    QJsonObject peticionServidor;
     /**
      * @brief tipoVariable : Contiene el tipo de variable
      */
@@ -40,6 +42,8 @@ private:
     int numeroLinea;
 
 public:
+    QJsonObject getPeticionServidor();
+    void setPeticionServidor(QJsonObject);
     /**
      * @brief setTipoinstruccion : Setter tipoInstruccion
      * @param tipo : Tipo instrucción
@@ -103,5 +107,4 @@ public:
 
 };
 
-
-#endif //SERVER_GRAFO_H
+#endif //Server_GRAFO_H

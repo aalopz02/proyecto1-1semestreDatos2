@@ -3,6 +3,7 @@
 //
 
 #include "../headers/formuladorMensajes.h"
+#include "../headers/comunicador.h"
 
 formuladorMensajes::formuladorMensajes(int id, string contenido) {
     QJsonObject nuevo = QJsonObject();
@@ -41,6 +42,9 @@ string formuladorMensajes::getTipoRequest() {
         case 26:
             request = "LectorTextEdit: Inicializar bloque memoria";
             break;
+        case 28:
+            request = "LectorTextEdit: Envío información sobre varibles";
+            break;
         case 96:
             request = "Server: Respuesta a petición de inicializar memoria";
             break;
@@ -75,7 +79,7 @@ formuladorMensajes::formuladorMensajes(int id, vector<int> numReferenciasTipos) 
     QJsonObject nuevo = QJsonObject();
     nuevo.insert("id",QString::fromStdString(std::to_string(id)));
     string res;
-    for (int i = 0; i < numReferenciasTipos.size()-1; i++) {
+    for (int i = 0; i < numReferenciasTipos.size(); i++) {
         res+= "-";
         res += to_string(numReferenciasTipos[i]);
     }
@@ -105,3 +109,4 @@ formuladorMensajes::formuladorMensajes(int id) {
     nuevo.insert("id",QString::fromStdString(std::to_string(id)));
     mensaje = nuevo;
 }
+

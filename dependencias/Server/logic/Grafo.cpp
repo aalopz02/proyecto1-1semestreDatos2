@@ -12,10 +12,6 @@ void Grafo::setContendido(string cont) {
     contenido = cont;
 }
 
-string Grafo::getNombreVariable() {
-    return nombreVariable;
-}
-
 string Grafo::getTipoVariable() {
     return tipoVariable;
 }
@@ -49,5 +45,17 @@ int Grafo::getNumeroLinea() {
 }
 
 void Grafo::setNumeroLinea(int numero) {
-    numeroLinea = numero;
+    numeroLinea = numero-6;
+}
+
+string Grafo::getNombreVariable() {
+    return nombreVariable;
+}
+
+void Grafo::setPeticionServidor(QJsonObject msj) {
+    peticionServidor = msj;
+}
+
+QJsonObject Grafo::getPeticionServidor() {
+    return peticionServidor;
 }

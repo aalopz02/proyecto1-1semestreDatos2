@@ -6,11 +6,23 @@
 #define Server_COMUNICADOR_H
 
 #include <QtCore/QJsonObject>
+#include "mServer.h"
+#include "formuladorMensajes.h"
 
 class comunicador {
 public:
     comunicador();
     void sendMsj(QJsonObject mensaje);
+    void setListaInstrucciones(vector<Grafo> entrada);
+
+private:
+    vector<Grafo> instrucciones;
+    mServer *servidor = mServer::getMemServer();
+    void mensajeServidor(formuladorMensajes msj);
+    void mensajeWindow(formuladorMensajes msj);
+    void mensajeLector(formuladorMensajes msj);
+    vector<Grafo> getInstrucciones();
+
 };
 
 

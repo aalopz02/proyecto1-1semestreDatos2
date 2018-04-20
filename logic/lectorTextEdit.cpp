@@ -28,7 +28,7 @@ string GetStdoutFromCommand(string cmd, char modo) {
     }
     if (data.empty()) {
         if (modo == 1) {
-            return "Programa compilado correctamente\n\n\n\n";
+            return "Programa compilado correctamente";
         }
         else {
             return ">>";
@@ -40,17 +40,17 @@ string GetStdoutFromCommand(string cmd, char modo) {
 void lectorTextEdit::debugCodigo(QTextEdit *log,QTextEdit *salida) {
     output = salida;
     string texto = GetStdoutFromCommand("c++ -g a.cpp",1);
-    if (texto.empty()) {
-        log->setText("Programa compilado correctamente");
-        dividirLectura();
+    if (texto == "Programa compilado correctamente") {
+        log->append(QString::fromStdString(texto));
+        dividirLectura(log);
     } else {
-        log->setText(QString::fromStdString(texto));
+        log->append(QString::fromStdString(texto));
     }
 }
 
 void lectorTextEdit::ejecutarCodigo(QTextEdit *log,QTextEdit *salida) {
     string texto = GetStdoutFromCommand("c++ -g a.cpp",1);
-    log->setText(QString::fromStdString(texto));
+    log->append(QString::fromStdString(texto));
     salida->setText(QString::fromStdString(GetStdoutFromCommand("./a.out",2)));
 }
 
@@ -63,7 +63,7 @@ void lectorTextEdit::generarSalidaCodigo() {
     file.close();
 }
 
-void lectorTextEdit::dividirLectura() {
+void lectorTextEdit::dividirLectura(QTextEdit *log) {
     int scope = 0;
     int numLinea = 0;
     string linea;
@@ -88,6 +88,9 @@ void lectorTextEdit::dividirLectura() {
         }
     }
     file.close();
+
+    inicializarMemoria(log);
+
 }
 
 void lectorTextEdit::agregarCantidadTiposDatos(int dato) {
@@ -150,7 +153,7 @@ void lectorTextEdit::definirOperacion(string linea, int numeroLinea, int scope, 
         for (int i = 0; i < linea.size(); i++) {
             if (linea[i] == '=') {
                 indiceCortar = i;
-                busqueda = buscarNombreVariable(0,linea.substr(0,i));
+                busqueda = buscarNombreVariable(linea.substr(0,i));
                 break;
             }
         }
@@ -165,6 +168,12 @@ void lectorTextEdit::definirOperacion(string linea, int numeroLinea, int scope, 
         }
     }
     if (def == "getValue") {
+
+    }
+    if (def == "getAdrr") {
+
+    }
+    if (def == "reference") {
 
     }
 }
@@ -254,7 +263,7 @@ void lectorTextEdit::agregarInstruccion(string linea, int numeroLinea, int scope
     }
     int indice;
     try {
-        indice = stoi(buscarNombreVariable(0,nombre));
+        indice = stoi(buscarNombreVariable(nombre));
         definirOperacionSobreVariable(linea,nombre,scope,listaInstrucciones[indice].getTipoVariable(),numeroLinea);
     } catch (std::invalid_argument& e) {
         definirOperacionSobreVariable(linea,nombre,0,"ND",numeroLinea);
@@ -295,13 +304,12 @@ string lectorTextEdit::buscarValor(string nombre, string tipo, int scope) {
     string result;
     for (int i = 0; i < listaInstrucciones.size(); i++) {
         aux = listaInstrucciones[i];
-        if (nombre == aux.getNombreVariable() && buscarNombreVariable(i,nombre) != "ERROR_VARIABLE_NO_DEFINIDA") {
+        if (nombre == aux.getNombreVariable() && buscarNombreVariable(nombre) != "ERROR_VARIABLE_NO_DEFINIDA") {
             if (aux.getScope() <= scope) {
                 if (tipo == "int") {
                     if (aux.getTipoVariable() == "int") {
                         aumentarReferenciaVariable(aux.getNombreVariable());
                         result = aux.getContenido();
-                        cout <<"El resultado es: "<< result <<endl;
                         return result;
                     }
                     if (aux.getTipoVariable() == "float" || aux.getTipoVariable() == "double" || aux.getTipoVariable() == "long") {
@@ -370,7 +378,6 @@ void lectorTextEdit::estructurarDefinicion(string linea, int numeroLinea, int sc
     }
     instruccion.setContendido(valor);
     listaInstrucciones.push_back(instruccion);
-
 }
 
 string lectorTextEdit::realizarOperacion(vector<vector<string>> operaciones,string tipo, int scope, string expresion) {
@@ -423,15 +430,20 @@ string lectorTextEdit::realizarOperacion(vector<vector<string>> operaciones,stri
     return resultado;
 }
 
-string lectorTextEdit::buscarNombreVariable(int inicio, string nombre) {
+string lectorTextEdit::buscarNombreVariable(string nombre) {
     Grafo aux;
-    for (int i = inicio; i < listaInstrucciones.size(); i++) {
+    string indice;
+
+    for (int i = 0; i < listaInstrucciones.size(); i++) {
         aux = listaInstrucciones[i];
         if (aux.getNombreVariable() == nombre) {
-            return std::to_string(i);
+            indice = std::to_string(i);
         }
     }
-    return "ERROR_VARIABLE_NO_DEFINIDA";
+    if (indice.empty()) {
+        return "ERROR_VARIABLE_NO_DEFINIDA";
+    }
+    return indice;
 }
 
 void
@@ -504,7 +516,6 @@ string lectorTextEdit::analizarLinea(int scope, int numeroLinea, string nombre, 
     else {
         valor = "El valor no está iniciado";
     }
-    cout << "variable: " << nombre << " es: "<< valor <<endl;
     return valor;
 }
 
@@ -512,10 +523,9 @@ void lectorTextEdit::imprimir(string texto, int numLinea) {
     Grafo aux = Grafo();
     aux.setNumeroLinea(numLinea);
     texto = texto.substr(0,texto.size()-1);
-    string nombre = buscarNombreVariable(0,texto);
+    string nombre = buscarNombreVariable(texto);
     if (nombre == "ERROR_VARIABLE_NO_DEFINIDA") {
         aux.setContendido(texto);
-        cout << "el contenido es: " << texto;
         aux.setNombreVariable("Cout");
     } else {
         aux.setNombreVariable(texto);
@@ -590,4 +600,19 @@ void lectorTextEdit::crearVariablesStruct(int scope, int numeroLinea, string lin
         }
 
     }
+}
+
+void lectorTextEdit::inicializarMemoria(QTextEdit *log) {
+    comunicador com;
+    formuladorMensajes msj = formuladorMensajes(26,cantidadTiposDatos);
+    com.setListaInstrucciones(listaInstrucciones);
+    com.sendMsj(msj.getMensaje());
+    log->append(QString::fromStdString(msj.getTipoRequest()));
+    msj = formuladorMensajes(28,numReferenciaVariables);
+    com.sendMsj(msj.getMensaje());
+    log->append(QString::fromStdString(msj.getTipoRequest()));
+    msj = formuladorMensajes(12);
+    com.sendMsj(msj.getMensaje());
+    log->append(QString::fromStdString(msj.getTipoRequest()));
+
 }

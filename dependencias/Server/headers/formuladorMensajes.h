@@ -6,6 +6,7 @@
 #define Server_FORMULADORMENSAJES_H
 
 #include <QtCore/QJsonObject>
+#include "Grafo.h"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ public:
 
 private:
     QJsonObject mensaje;
+    vector<Grafo> instrucciones;
 
 };
 
