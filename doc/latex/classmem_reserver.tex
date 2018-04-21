@@ -1,0 +1,105 @@
+\hypertarget{classmem_reserver}{}\section{mem\+Reserver Class Reference}
+\label{classmem_reserver}\index{mem\+Reserver@{mem\+Reserver}}
+
+
+The \hyperlink{classmem_reserver}{mem\+Reserver} class \+: Clase que se encarga de reservar un bloque de memoria inicial.  
+
+
+
+
+{\ttfamily \#include $<$mem\+Reserver.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmem_reserver_a3c9bfe21a1b73d23ab0b5d2141279b3f}{mem\+Reserver} (int tamano)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classmem_reserver}{mem\+Reserver} \+: Constructor de la clase que llama a reservar para inicializar la memoria \end{DoxyCompactList}\item 
+void \hyperlink{classmem_reserver_a7969fa416646d9d2191cc6d941a84c63}{reservar} ()\hypertarget{classmem_reserver_a7969fa416646d9d2191cc6d941a84c63}{}\label{classmem_reserver_a7969fa416646d9d2191cc6d941a84c63}
+
+\begin{DoxyCompactList}\small\item\em reservar \+: Función que hace la reserva de la memoria y la inicializa \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ string $>$ $>$ \hyperlink{classmem_reserver_a397f43504a4d2eef83dfe2364a6d3f97}{leer\+Variables\+Grafo} (vector$<$ \hyperlink{class_grafo}{Grafo} $>$ instrucciones)
+\begin{DoxyCompactList}\small\item\em leer\+Variables\+Grafo \+: Función que dada una lista de instrucciones asigna los valores a la memoria y crea el mapa de la misma \end{DoxyCompactList}\item 
+void \hyperlink{classmem_reserver_af2a2a798e616b7ff5c0d7afc7f5980fb}{escribir\+Memoria} (string contenido)
+\begin{DoxyCompactList}\small\item\em escribir\+Memoria \+: Función auxiliar a leer\+Variables\+Grafo que concatena los valores en la memoria \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{classmem_reserver_ac6caa7be462f14df57a9ce9568bbf6d1}{obtener\+Memoria} ()
+\begin{DoxyCompactList}\small\item\em obtener\+Memoria \+: Función para obtener el bloque de memoria \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classmem_reserver}{mem\+Reserver} class \+: Clase que se encarga de reservar un bloque de memoria inicial. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{mem\+Reserver@{mem\+Reserver}!mem\+Reserver@{mem\+Reserver}}
+\index{mem\+Reserver@{mem\+Reserver}!mem\+Reserver@{mem\+Reserver}}
+\subsubsection[{\texorpdfstring{mem\+Reserver(int tamano)}{memReserver(int tamano)}}]{\setlength{\rightskip}{0pt plus 5cm}mem\+Reserver\+::mem\+Reserver (
+\begin{DoxyParamCaption}
+\item[{int}]{tamano}
+\end{DoxyParamCaption}
+)}\hypertarget{classmem_reserver_a3c9bfe21a1b73d23ab0b5d2141279b3f}{}\label{classmem_reserver_a3c9bfe21a1b73d23ab0b5d2141279b3f}
+
+
+\hyperlink{classmem_reserver}{mem\+Reserver} \+: Constructor de la clase que llama a reservar para inicializar la memoria 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tamano} & \+: Tamaño de la memoria a reservar \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{mem\+Reserver@{mem\+Reserver}!escribir\+Memoria@{escribir\+Memoria}}
+\index{escribir\+Memoria@{escribir\+Memoria}!mem\+Reserver@{mem\+Reserver}}
+\subsubsection[{\texorpdfstring{escribir\+Memoria(string contenido)}{escribirMemoria(string contenido)}}]{\setlength{\rightskip}{0pt plus 5cm}void mem\+Reserver\+::escribir\+Memoria (
+\begin{DoxyParamCaption}
+\item[{string}]{contenido}
+\end{DoxyParamCaption}
+)}\hypertarget{classmem_reserver_af2a2a798e616b7ff5c0d7afc7f5980fb}{}\label{classmem_reserver_af2a2a798e616b7ff5c0d7afc7f5980fb}
+
+
+escribir\+Memoria \+: Función auxiliar a leer\+Variables\+Grafo que concatena los valores en la memoria 
+
+
+\begin{DoxyParams}{Parameters}
+{\em contenido} & \+: Valor a escribir en la memoria \\
+\hline
+\end{DoxyParams}
+\index{mem\+Reserver@{mem\+Reserver}!leer\+Variables\+Grafo@{leer\+Variables\+Grafo}}
+\index{leer\+Variables\+Grafo@{leer\+Variables\+Grafo}!mem\+Reserver@{mem\+Reserver}}
+\subsubsection[{\texorpdfstring{leer\+Variables\+Grafo(vector$<$ Grafo $>$ instrucciones)}{leerVariablesGrafo(vector< Grafo > instrucciones)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ std\+::vector$<$ string $>$ $>$ mem\+Reserver\+::leer\+Variables\+Grafo (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Grafo} $>$}]{instrucciones}
+\end{DoxyParamCaption}
+)}\hypertarget{classmem_reserver_a397f43504a4d2eef83dfe2364a6d3f97}{}\label{classmem_reserver_a397f43504a4d2eef83dfe2364a6d3f97}
+
+
+leer\+Variables\+Grafo \+: Función que dada una lista de instrucciones asigna los valores a la memoria y crea el mapa de la misma 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instrucciones} & \+: Lista de variables a escribir \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: R\+Etorna el mapa de memoria 
+\end{DoxyReturn}
+\index{mem\+Reserver@{mem\+Reserver}!obtener\+Memoria@{obtener\+Memoria}}
+\index{obtener\+Memoria@{obtener\+Memoria}!mem\+Reserver@{mem\+Reserver}}
+\subsubsection[{\texorpdfstring{obtener\+Memoria()}{obtenerMemoria()}}]{\setlength{\rightskip}{0pt plus 5cm}char $\ast$ mem\+Reserver\+::obtener\+Memoria (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classmem_reserver_ac6caa7be462f14df57a9ce9568bbf6d1}{}\label{classmem_reserver_ac6caa7be462f14df57a9ce9568bbf6d1}
+
+
+obtener\+Memoria \+: Función para obtener el bloque de memoria 
+
+\begin{DoxyReturn}{Returns}
+\+: Retorna el puntero al bloque de memoria 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dependencias/\+Server/headers/mem\+Reserver.\+h\item 
+dependencias/\+Server/logic/mem\+Reserver.\+cpp\end{DoxyCompactItemize}

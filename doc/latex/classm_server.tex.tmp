@@ -1,0 +1,207 @@
+\hypertarget{classm_server}{}\section{m\+Server Class Reference}
+\label{classm_server}\index{m\+Server@{m\+Server}}
+
+
+The \hyperlink{classm_server}{m\+Server} class \+: Clase del servidor para el manejo de la memoria y llama a las clases necesarias.  
+
+
+
+
+{\ttfamily \#include $<$m\+Server.\+h$>$}
+
+
+
+Collaboration diagram for m\+Server\+:
+% FIG 0
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{classm_server_ab3aa47ebe9d123fbd483e355d8616f4c}{leer\+Valor} (string nombre)
+\begin{DoxyCompactList}\small\item\em leer\+Valor\+: Función que busca el valor de una variable \end{DoxyCompactList}\item 
+int \hyperlink{classm_server_a71a37130e552dac9f8ad6eb8e7681a2a}{get\+Cantidad\+Referencias} (string nombre)
+\begin{DoxyCompactList}\small\item\em get\+Cantidad\+Referencias \+: Función para obtener la cantidad de referencias a una variable \end{DoxyCompactList}\item 
+void \hyperlink{classm_server_af3275764c7734ed804ffc58083a6c75b}{set\+Contenido\+Cuadro\+Ram} ()\hypertarget{classm_server_af3275764c7734ed804ffc58083a6c75b}{}\label{classm_server_af3275764c7734ed804ffc58083a6c75b}
+
+\begin{DoxyCompactList}\small\item\em set\+Contenido\+Cuadro\+Ram \+: Función que crea el string con el contenido del cuadro ram \end{DoxyCompactList}\item 
+void \hyperlink{classm_server_a61cc5e41ee6ce09d7ee1d92f83a1216b}{reserva\+Inicial\+Memoria} (vector$<$ int $>$ tamano)
+\begin{DoxyCompactList}\small\item\em reserva\+Inicial\+Memoria \+: Función que llama a \hyperlink{classmem_reserver}{mem\+Reserver} para reservar e inicializar la memoria \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{classm_server_af749d9f514da9b707c4a4182944f1ee0}{obtener\+Memoria} ()
+\begin{DoxyCompactList}\small\item\em obtener\+Memoria \+: Función que obtiene la memoria de \hyperlink{classmem_reserver}{mem\+Reserver} \end{DoxyCompactList}\item 
+vector$<$ vector$<$ string $>$ $>$ \hyperlink{classm_server_ad44d2cd21bb9169a375aabd7b5ec867f}{obtener\+Mapa\+Memoria} ()
+\begin{DoxyCompactList}\small\item\em obtener\+Mapa\+Memoria \+: Función para obtener el mapa con los índices a la memoria por cada variable \end{DoxyCompactList}\item 
+void \hyperlink{classm_server_a4307bb675611365d991f73f97d0af8bb}{limpiar\+Memoria} ()\hypertarget{classm_server_a4307bb675611365d991f73f97d0af8bb}{}\label{classm_server_a4307bb675611365d991f73f97d0af8bb}
+
+\begin{DoxyCompactList}\small\item\em limpiar\+Memoria \+: Lee las referencias a las variables y si llega a -\/1 pone ceros en los espacios \end{DoxyCompactList}\item 
+void \hyperlink{classm_server_a303c5cb22bb3e4718efd8fab351c0f7d}{set\+Librememoria} (string nombre)
+\begin{DoxyCompactList}\small\item\em set\+Libre\+Memoria \+: Elimina del mapa de memoria los valores guardados para un nombre \end{DoxyCompactList}\item 
+void \hyperlink{classm_server_ae1a9406ea420b53f8478ffc6519ed864}{set\+Instrucciones} (vector$<$ \hyperlink{class_grafo}{Grafo} $>$ entrada)
+\begin{DoxyCompactList}\small\item\em set\+Instrucciones \+: Setter de la lista de instrucciones \end{DoxyCompactList}\item 
+void \hyperlink{classm_server_a3ff921613cd4746ba336a44ae242a5e7}{set\+Numero\+Referencias\+Variables} (vector$<$ vector$<$ string $>$$>$ numero\+Referencias)
+\begin{DoxyCompactList}\small\item\em set\+Numero\+Referencias\+Variables \+: Setter del número de referencias a variables \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classm_server}{m\+Server} $\ast$ \hyperlink{classm_server_a175c535017a8b559eeceb47d27d6da28}{get\+Mem\+Server} ()
+\begin{DoxyCompactList}\small\item\em get\+Mem\+Server \+: Función que evalua si ya se creo una instancia o la crea y retorna esta instancia \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmem_reserver}{mem\+Reserver} $\ast$ \hyperlink{classm_server_a214a8661528c193adcda8fd3b9b6c974}{mem\+Reserver1}\hypertarget{classm_server_a214a8661528c193adcda8fd3b9b6c974}{}\label{classm_server_a214a8661528c193adcda8fd3b9b6c974}
+
+\begin{DoxyCompactList}\small\item\em mem\+Reserver1 \+: Instancia de la clase para reserva de memoria \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classm_server}{m\+Server} class \+: Clase del servidor para el manejo de la memoria y llama a las clases necesarias. 
+
+\subsection{Member Function Documentation}
+\index{m\+Server@{m\+Server}!get\+Cantidad\+Referencias@{get\+Cantidad\+Referencias}}
+\index{get\+Cantidad\+Referencias@{get\+Cantidad\+Referencias}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{get\+Cantidad\+Referencias(string nombre)}{getCantidadReferencias(string nombre)}}]{\setlength{\rightskip}{0pt plus 5cm}int m\+Server\+::get\+Cantidad\+Referencias (
+\begin{DoxyParamCaption}
+\item[{string}]{nombre}
+\end{DoxyParamCaption}
+)}\hypertarget{classm_server_a71a37130e552dac9f8ad6eb8e7681a2a}{}\label{classm_server_a71a37130e552dac9f8ad6eb8e7681a2a}
+
+
+get\+Cantidad\+Referencias \+: Función para obtener la cantidad de referencias a una variable 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombre} & \+: Nombre de la variable a buscar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Entero con la cantidad 
+\end{DoxyReturn}
+\index{m\+Server@{m\+Server}!get\+Mem\+Server@{get\+Mem\+Server}}
+\index{get\+Mem\+Server@{get\+Mem\+Server}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{get\+Mem\+Server()}{getMemServer()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf m\+Server} $\ast$ m\+Server\+::get\+Mem\+Server (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classm_server_a175c535017a8b559eeceb47d27d6da28}{}\label{classm_server_a175c535017a8b559eeceb47d27d6da28}
+
+
+get\+Mem\+Server \+: Función que evalua si ya se creo una instancia o la crea y retorna esta instancia 
+
+\begin{DoxyReturn}{Returns}
+\+: Retorna la instancia de la clase 
+\end{DoxyReturn}
+\index{m\+Server@{m\+Server}!leer\+Valor@{leer\+Valor}}
+\index{leer\+Valor@{leer\+Valor}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{leer\+Valor(string nombre)}{leerValor(string nombre)}}]{\setlength{\rightskip}{0pt plus 5cm}string m\+Server\+::leer\+Valor (
+\begin{DoxyParamCaption}
+\item[{string}]{nombre}
+\end{DoxyParamCaption}
+)}\hypertarget{classm_server_ab3aa47ebe9d123fbd483e355d8616f4c}{}\label{classm_server_ab3aa47ebe9d123fbd483e355d8616f4c}
+
+
+leer\+Valor\+: Función que busca el valor de una variable 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombre} & \+: Nombre de la variablea buscar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Valor de la variable 
+\end{DoxyReturn}
+\index{m\+Server@{m\+Server}!obtener\+Mapa\+Memoria@{obtener\+Mapa\+Memoria}}
+\index{obtener\+Mapa\+Memoria@{obtener\+Mapa\+Memoria}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{obtener\+Mapa\+Memoria()}{obtenerMapaMemoria()}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ vector$<$ string $>$ $>$ m\+Server\+::obtener\+Mapa\+Memoria (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classm_server_ad44d2cd21bb9169a375aabd7b5ec867f}{}\label{classm_server_ad44d2cd21bb9169a375aabd7b5ec867f}
+
+
+obtener\+Mapa\+Memoria \+: Función para obtener el mapa con los índices a la memoria por cada variable 
+
+\begin{DoxyReturn}{Returns}
+\+: Mapa de la memoria 
+\end{DoxyReturn}
+\index{m\+Server@{m\+Server}!obtener\+Memoria@{obtener\+Memoria}}
+\index{obtener\+Memoria@{obtener\+Memoria}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{obtener\+Memoria()}{obtenerMemoria()}}]{\setlength{\rightskip}{0pt plus 5cm}char $\ast$ m\+Server\+::obtener\+Memoria (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classm_server_af749d9f514da9b707c4a4182944f1ee0}{}\label{classm_server_af749d9f514da9b707c4a4182944f1ee0}
+
+
+obtener\+Memoria \+: Función que obtiene la memoria de \hyperlink{classmem_reserver}{mem\+Reserver} 
+
+\begin{DoxyReturn}{Returns}
+\+: Puntero a la memoria 
+\end{DoxyReturn}
+\index{m\+Server@{m\+Server}!reserva\+Inicial\+Memoria@{reserva\+Inicial\+Memoria}}
+\index{reserva\+Inicial\+Memoria@{reserva\+Inicial\+Memoria}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{reserva\+Inicial\+Memoria(vector$<$ int $>$ tamano)}{reservaInicialMemoria(vector< int > tamano)}}]{\setlength{\rightskip}{0pt plus 5cm}void m\+Server\+::reserva\+Inicial\+Memoria (
+\begin{DoxyParamCaption}
+\item[{vector$<$ int $>$}]{tamano}
+\end{DoxyParamCaption}
+)}\hypertarget{classm_server_a61cc5e41ee6ce09d7ee1d92f83a1216b}{}\label{classm_server_a61cc5e41ee6ce09d7ee1d92f83a1216b}
+
+
+reserva\+Inicial\+Memoria \+: Función que llama a \hyperlink{classmem_reserver}{mem\+Reserver} para reservar e inicializar la memoria 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tamano} & \+: Tamaño de la memoria a reservar contenido en un arreglo, por referencias a cada tipo de variable \\
+\hline
+\end{DoxyParams}
+\index{m\+Server@{m\+Server}!set\+Instrucciones@{set\+Instrucciones}}
+\index{set\+Instrucciones@{set\+Instrucciones}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{set\+Instrucciones(vector$<$ Grafo $>$ entrada)}{setInstrucciones(vector< Grafo > entrada)}}]{\setlength{\rightskip}{0pt plus 5cm}void m\+Server\+::set\+Instrucciones (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Grafo} $>$}]{entrada}
+\end{DoxyParamCaption}
+)}\hypertarget{classm_server_ae1a9406ea420b53f8478ffc6519ed864}{}\label{classm_server_ae1a9406ea420b53f8478ffc6519ed864}
+
+
+set\+Instrucciones \+: Setter de la lista de instrucciones 
+
+
+\begin{DoxyParams}{Parameters}
+{\em entrada} & \+: Lista instrucciones \\
+\hline
+\end{DoxyParams}
+\index{m\+Server@{m\+Server}!set\+Librememoria@{set\+Librememoria}}
+\index{set\+Librememoria@{set\+Librememoria}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{set\+Librememoria(string nombre)}{setLibrememoria(string nombre)}}]{\setlength{\rightskip}{0pt plus 5cm}void m\+Server\+::set\+Librememoria (
+\begin{DoxyParamCaption}
+\item[{string}]{nombre}
+\end{DoxyParamCaption}
+)}\hypertarget{classm_server_a303c5cb22bb3e4718efd8fab351c0f7d}{}\label{classm_server_a303c5cb22bb3e4718efd8fab351c0f7d}
+
+
+set\+Libre\+Memoria \+: Elimina del mapa de memoria los valores guardados para un nombre 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombre} & \+: Nombre a eliminar \\
+\hline
+\end{DoxyParams}
+\index{m\+Server@{m\+Server}!set\+Numero\+Referencias\+Variables@{set\+Numero\+Referencias\+Variables}}
+\index{set\+Numero\+Referencias\+Variables@{set\+Numero\+Referencias\+Variables}!m\+Server@{m\+Server}}
+\subsubsection[{\texorpdfstring{set\+Numero\+Referencias\+Variables(vector$<$ vector$<$ string $>$$>$ numero\+Referencias)}{setNumeroReferenciasVariables(vector< vector< string >> numeroReferencias)}}]{\setlength{\rightskip}{0pt plus 5cm}void m\+Server\+::set\+Numero\+Referencias\+Variables (
+\begin{DoxyParamCaption}
+\item[{vector$<$ vector$<$ string $>$$>$}]{numero\+Referencias}
+\end{DoxyParamCaption}
+)}\hypertarget{classm_server_a3ff921613cd4746ba336a44ae242a5e7}{}\label{classm_server_a3ff921613cd4746ba336a44ae242a5e7}
+
+
+set\+Numero\+Referencias\+Variables \+: Setter del número de referencias a variables 
+
+
+\begin{DoxyParams}{Parameters}
+{\em numero\+Referencias} & \+: Lista con los números de referencias \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dependencias/\+Server/headers/m\+Server.\+h\item 
+dependencias/\+Server/logic/m\+Server.\+cpp\end{DoxyCompactItemize}
