@@ -4,6 +4,8 @@
 
 #include <QtCore/QObject>
 #include "Window.h"
+#include "dependencias/Server/headers/formuladorMensajes.h"
+#include "dependencias/Server/headers/comunicador.h"
 
 Window::Window(QWidget *parent) :
         QWidget(parent) {
@@ -16,16 +18,34 @@ Window::Window(QWidget *parent) :
     contenedor_Botones->show();
 
     etiqueta_Ram = new QLabel(this);
-    etiqueta_Ram->setText("Dir            Valor      Nombre       Ref");
+    etiqueta_Ram->setText("Dir                       Valor   Nomb   Ref");
     etiqueta_Ram->setGeometry(665,28,235,25);
     etiqueta_Ram->setFrameStyle(1);
     etiqueta_Ram->show();
 
-    contenedor_Ram = new QTextEdit(this);
-    contenedor_Ram->setGeometry(665,50,235,450);
-    contenedor_Ram->setFrameStyle(1);
-    contenedor_Ram->setReadOnly(true);
-    contenedor_Ram->show();
+    contenedor_Dir = new QTextEdit(this);
+    contenedor_Dir->setGeometry(665,50,105,500);
+    contenedor_Dir->setReadOnly(true);
+    contenedor_Dir->setFrameStyle(1);
+    contenedor_Dir->show();
+
+    contenedor_Nombres = new QTextEdit(this);
+    contenedor_Nombres->setGeometry(770,50,50,500);
+    contenedor_Nombres->setReadOnly(true);
+    contenedor_Nombres->setFrameStyle(1);
+    contenedor_Nombres->show();
+
+    contenedor_Valor = new QTextEdit(this);
+    contenedor_Valor->setGeometry(820,50,40,500);
+    contenedor_Valor->setReadOnly(true);
+    contenedor_Valor->setFrameStyle(1);
+    contenedor_Valor->show();
+
+    contenedor_Ref = new QTextEdit(this);
+    contenedor_Ref->setFrameStyle(1);
+    contenedor_Ref->setGeometry(860,50,40,500);
+    contenedor_Ref->setReadOnly(true);
+    contenedor_Ref->show();
 
     editor = new QTextEdit(this);
     editor->setGeometry(25, 0, 640, 500);
@@ -174,6 +194,10 @@ void Window::BotonAvanzarDebug() {
         salida->setText(QString::fromStdString(instrucciones[indiceInstrucciones].getNombreVariable() +" -> "+ contenido));
         lineaActual = instrucciones[indiceInstrucciones].getNumeroLinea();
         mostrarLinea();
+        formuladorMensajes msj = formuladorMensajes(12);
+        comunicador com;
+        com.sendMsj(msj.getMensaje());
+        log->append(QString::fromStdString(msj.getTipoRequest()));
         actualizarCuadroRam();
         indiceInstrucciones ++;
     }
@@ -194,6 +218,35 @@ void Window::mostrarLinea() {
     numLineas->setText(QString::fromStdString(resultado));
 }
 
-string Window::actualizarCuadroRam() {
-    return "";
+void Window::actualizarCuadroRam() {
+    int indice = 0;
+    string linea;
+    ifstream file ("./ContRam.txt");
+    int i = 0;
+    contenedor_Ref->clear();
+    contenedor_Nombres->clear();
+    contenedor_Valor->clear();
+    contenedor_Ref->clear();
+    while (getline(file,linea)) {
+        if (i == 0) {
+            log->append(QString::fromStdString(linea));
+            i = 1;
+        } else {
+            if (indice == 0) {
+                contenedor_Dir->append(QString::fromStdString(linea));
+            }
+            if (indice == 1) {
+                contenedor_Valor->append(QString::fromStdString(linea));
+            }
+            if (indice == 2) {
+                contenedor_Nombres->append(QString::fromStdString(linea));
+            }
+            if (indice == 3) {
+                indice = -1;
+                contenedor_Ref->append(QString::fromStdString(linea));
+            }
+            indice++;
+        }
+    }
+    file.close();
 }

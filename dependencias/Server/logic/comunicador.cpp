@@ -2,6 +2,7 @@
 // Created by andres on 13/04/18.
 //
 
+#include <fstream>
 #include "../headers/comunicador.h"
 
 comunicador::comunicador() {
@@ -27,22 +28,20 @@ void comunicador::sendMsj(QJsonObject mensaje) {
         mensajeServidor(msj);
         return;
     }
-    if (stoi(msj.getIdPeticion()) == 96) {
-        mensajeLector(msj);
-        return;
-    }
     if (stoi(msj.getIdPeticion()) < 96 && stoi(msj.getIdPeticion()) > 91) {
         mensajeWindow(msj);
         return;
     }
 }
 
-void comunicador::mensajeLector(formuladorMensajes msj) {
-    cout << "servidor contesto a lector" << endl;
-}
-
 void comunicador::mensajeWindow(formuladorMensajes msj) {
-    cout << "servidor contesto a ventana" << endl;
+    switch (stoi(msj.getIdPeticion())) {
+        case 92:
+            std::ofstream file ("ContRam.txt");
+            file << msj.getTipoRequest() + "\n" + msj.getContenido();
+            file.close();
+            break;
+    }
 }
 
 void comunicador::setListaInstrucciones(vector<Grafo> entrada) {
@@ -51,6 +50,14 @@ void comunicador::setListaInstrucciones(vector<Grafo> entrada) {
 
 vector<Grafo> comunicador::getInstrucciones() {
     return instrucciones;
+}
+
+void comunicador::setCantidadRef(vector<vector<string>> ref) {
+    numeroReferencias = ref;
+}
+
+vector<vector<string>> comunicador::getNumeroReferencias() {
+    return numeroReferencias;
 }
 
 void comunicador::mensajeServidor(formuladorMensajes msj) {
@@ -78,25 +85,11 @@ void comunicador::mensajeServidor(formuladorMensajes msj) {
             servidor->reservaInicialMemoria(cantidadDatos);
             break;
         case 28:
-            res ="";
-            for (int i = 0; i < msj.getContenido().size() - 1; i++) {
-                if (msj.getContenido()[i] == '-') {
-                    referenciasVariables[indice].push_back(res);
-                    res = "";
-                    if (indice == 0) {
-                        indice = 1;
-                    } else {
-                        indice = 0;
-                    }
-                } else {
-                    res += msj.getContenido()[i];
-                }
-            }
-            servidor->setNumeroReferenciasVariables(referenciasVariables);
+            servidor->setNumeroReferenciasVariables(getNumeroReferencias());
             break;
         case 12:
             servidor->setContenidoCuadroRam();
-
+            break;
         default:break;
     }
 }

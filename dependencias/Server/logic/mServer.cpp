@@ -4,6 +4,7 @@
 
 #include <sstream>
 #include "../headers/mServer.h"
+#include "../headers/comunicador.h"
 
 mServer* mServer::instance = 0;
 
@@ -39,8 +40,8 @@ vector<vector<string>> mServer::obtenerMapaMemoria() {
 
 void mServer::limpiarMemoria() {
     vector<string> variablesLibres = {};
-    for (int i = 0; i < mapaMemoria[0].size(); i++) {
-        if (stoi(numReferenciaVariables[1][i]) == 0) {
+    for (int i = 0; i < mapaMemoria[0].size()-1; i++) {
+        if (stoi(numReferenciaVariables[1][i]) == -1) {
             variablesLibres.push_back(numReferenciaVariables[0][i]);
         }
     }
@@ -77,7 +78,7 @@ void mServer::setContenidoCuadroRam() {
         s2 << dir + indice;
         contenidoCuadro += s2.str();
         contenidoCuadro += "\n";
-        contenidoCuadro += leerValor();
+        contenidoCuadro += leerValor(obtenerMapaMemoria()[0][i]);
         contenidoCuadro += "\n";
         contenidoCuadro += obtenerMapaMemoria()[0][i];
         contenidoCuadro += "\n";
@@ -85,11 +86,26 @@ void mServer::setContenidoCuadroRam() {
         contenidoCuadro += "\n";
     }
     contenidoCuadroRam = contenidoCuadro;
-    cout << contenidoCuadroRam << endl;
+    formuladorMensajes msj = formuladorMensajes(92,contenidoCuadroRam);
+    comunicador com;
+    com.sendMsj(msj.getMensaje());
+    limpiarMemoria();
 }
 
-string mServer::leerValor() {
-    return "valor";
+string mServer::leerValor(string nombre) {
+    string valor;
+    int inicio;
+    int final;
+    for (int i = 0; i < obtenerMapaMemoria()[0].size(); i++) {
+        if (nombre == obtenerMapaMemoria()[0][i]) {
+            inicio = stoi(obtenerMapaMemoria()[1][i]);
+            final = stoi(obtenerMapaMemoria()[2][i]);
+        }
+    }
+    for (int j = inicio; j < final; j++) {
+        valor += obtenerMemoria()[j];
+    }
+    return valor;
 }
 
 int mServer::getCantidadReferencias(string nombre) {

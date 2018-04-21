@@ -23,47 +23,52 @@ std::vector<std::vector<string>> memReserver::leerVariablesGrafo(vector<Grafo> i
     std::vector<std::vector<string>> mapaAux = {{},{},{}};
     for (int i = 0; i < instrucciones.size(); i++) {
         aux = instrucciones[i];
-        if (aux.getTipoVariable() == "int") {
-            mapaAux[0].push_back(aux.getNombreVariable());
-            mapaAux[1].push_back(std::to_string(indiceActual));
-            escribirMemoria(aux.getContenido());
-            indiceActual += aux.getContenido().size();
-            mapaAux[2].push_back(std::to_string(indiceActual));
+        if (aux.getNombreVariable() == "ERROR") {
+            break;
         }
-        if (aux.getTipoVariable() == "char") {
-            mapaAux[0].push_back(aux.getNombreVariable());
-            mapaAux[1].push_back(std::to_string(indiceActual));
-            escribirMemoria(aux.getContenido());
-            indiceActual += aux.getContenido().size();
-            mapaAux[2].push_back(std::to_string(indiceActual));
-        }
-        if (aux.getTipoVariable() == "long") {
-            mapaAux[0].push_back(aux.getNombreVariable());
-            mapaAux[1].push_back(std::to_string(indiceActual));
-            escribirMemoria(aux.getContenido());
-            indiceActual += aux.getContenido().size();
-            mapaAux[2].push_back(std::to_string(indiceActual));
-        }
-        if (aux.getTipoVariable() == "double") {
-            mapaAux[0].push_back(aux.getNombreVariable());
-            mapaAux[1].push_back(std::to_string(indiceActual));
-            escribirMemoria(aux.getContenido());
-            indiceActual += aux.getContenido().size();
-            mapaAux[2].push_back(std::to_string(indiceActual));
-        }
-        if (aux.getTipoVariable() == "float") {
-            mapaAux[0].push_back(aux.getNombreVariable());
-            mapaAux[1].push_back(std::to_string(indiceActual));
-            escribirMemoria(aux.getContenido());
-            indiceActual += aux.getContenido().size();
-            mapaAux[2].push_back(std::to_string(indiceActual));
-        }
-        if (aux.getTipoVariable() == "reference") {
-            mapaAux[0].push_back(aux.getNombreVariable());
-            mapaAux[1].push_back(std::to_string(indiceActual));
-            escribirMemoria(aux.getContenido());
-            indiceActual += aux.getContenido().size();
-            mapaAux[2].push_back(std::to_string(indiceActual));
+        if (aux.getNombreVariable() != "Cout") {
+            if (aux.getTipoVariable() == "int") {
+                mapaAux[0].push_back(aux.getNombreVariable());
+                mapaAux[1].push_back(std::to_string(indiceActual));
+                escribirMemoria(aux.getContenido());
+                indiceActual += aux.getContenido().size();
+                mapaAux[2].push_back(std::to_string(indiceActual));
+            }
+            if (aux.getTipoVariable() == "char") {
+                mapaAux[0].push_back(aux.getNombreVariable());
+                mapaAux[1].push_back(std::to_string(indiceActual));
+                escribirMemoria(aux.getContenido());
+                indiceActual += aux.getContenido().size();
+                mapaAux[2].push_back(std::to_string(indiceActual));
+            }
+            if (aux.getTipoVariable() == "long") {
+                mapaAux[0].push_back(aux.getNombreVariable());
+                mapaAux[1].push_back(std::to_string(indiceActual));
+                escribirMemoria(aux.getContenido());
+                indiceActual += aux.getContenido().size();
+                mapaAux[2].push_back(std::to_string(indiceActual));
+            }
+            if (aux.getTipoVariable() == "double") {
+                mapaAux[0].push_back(aux.getNombreVariable());
+                mapaAux[1].push_back(std::to_string(indiceActual));
+                escribirMemoria(aux.getContenido());
+                indiceActual += aux.getContenido().size();
+                mapaAux[2].push_back(std::to_string(indiceActual));
+            }
+            if (aux.getTipoVariable() == "float") {
+                mapaAux[0].push_back(aux.getNombreVariable());
+                mapaAux[1].push_back(std::to_string(indiceActual));
+                escribirMemoria(aux.getContenido());
+                indiceActual += aux.getContenido().size();
+                mapaAux[2].push_back(std::to_string(indiceActual));
+            }
+            if (aux.getTipoVariable() == "reference") {
+                mapaAux[0].push_back(aux.getNombreVariable());
+                mapaAux[1].push_back(std::to_string(indiceActual));
+                escribirMemoria(aux.getContenido());
+                indiceActual += aux.getContenido().size();
+                mapaAux[2].push_back(std::to_string(indiceActual));
+            }
         }
     }
     return mapaAux;

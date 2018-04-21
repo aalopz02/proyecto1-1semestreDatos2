@@ -49,6 +49,10 @@ public:
     std::vector<Grafo> getListaInstrucciones();
 private:
     /**
+     * @brief error : Entero que se evalua cada vez que se lee una instrucción para terminar la lectura si hay errores
+     */
+    int error = 0;
+    /**
      * @brief inicializarMemoria : Funci[on que env[ia un mensaje al comunicador para inicalizar el bloque de memoria
      */
     void inicializarMemoria(QTextEdit *log);

@@ -86,6 +86,9 @@ void lectorTextEdit::dividirLectura(QTextEdit *log) {
             }
             numLinea ++;
         }
+        if (error == 1) {
+            break;
+        }
     }
     file.close();
 
@@ -163,6 +166,7 @@ void lectorTextEdit::definirOperacion(string linea, int numeroLinea, int scope, 
             grafo1.setNumeroLinea(numeroLinea);
             grafo1.setNombreVariable("ERROR");
             listaInstrucciones.push_back(grafo1);
+            error = 1;
         } else {
             definirOperacionSobreVariable(linea,linea.substr(0,indiceCortar),scope,tipo,numeroLinea);
         }
@@ -337,6 +341,7 @@ string lectorTextEdit::buscarValor(string nombre, string tipo, int scope) {
                 }
             } else {
                 result = "ERROR_VARIABLE_FUERA_SCOPE";
+                error = 1;
                 return result;
             }
         }
@@ -458,6 +463,8 @@ lectorTextEdit::definirOperacionSobreVariable(string linea, string nombre, int s
         valor = analizarLinea(scope,numeroLinea,nombre,tipo,linea,nombre.size());
     } else {
         valor = "La variable: " + nombre + " no está definida";
+        error = 1;
+        operacion.setNombreVariable("ERROR");
     }
     operacion.setContendido(valor);
     listaInstrucciones.push_back(operacion);
@@ -475,10 +482,10 @@ string lectorTextEdit::analizarLinea(int scope, int numeroLinea, string nombre, 
                 if (operadores[j] == linea[i]) {
                     operaciones.push_back(i-(valorAsignado + 1));
                 }
-                if (i == 6) {
+                if (j == 6) {
                     parentesis ++;
                 }
-                if (i == 5) {
+                if (j == 5) {
                     parentesis --;
                 }
             }
@@ -496,16 +503,19 @@ string lectorTextEdit::analizarLinea(int scope, int numeroLinea, string nombre, 
                     valorAux = buscarValor(valor,tipo,scope);
                     if (valorAux == "ERROR_VARIABLE_NO_DEFINIDA") {
                         valor = valor + " no está definida ";
+                        error = 1;
                     } else {
                         valor = valorAux;
                     }
                     if (valorAux == "ERROR_VARIABLE_FUERA_SCOPE") {
                         valor = valor + " no está dentro del scope de: " + nombre;
+                        error = 1;
                     } else {
                         valor = valorAux;
                     }
                 } else {
                     valor = "Falta un paréntesis en la línea: "+std::to_string(numeroLinea);
+                    error = 1;
                 }
             }
         } else {
@@ -565,10 +575,12 @@ void lectorTextEdit::crearVariablesStruct(int scope, int numeroLinea, string lin
         }
     }
     if (nombreTipoStruct == linea) {
+        aux.setNombreVariable("ERROR");
         aux.setContendido("La estructura " + nombreTipoStruct + " no se encuentra definida");
         aux.setNumeroLinea(numeroLinea);
         aux.setScope(scope);
         listaInstrucciones.push_back(aux);
+        error = 1;
     } else {
         string nombreStructMiembro;
         vector<string> miembros;
@@ -608,9 +620,12 @@ void lectorTextEdit::inicializarMemoria(QTextEdit *log) {
     com.setListaInstrucciones(listaInstrucciones);
     com.sendMsj(msj.getMensaje());
     log->append(QString::fromStdString(msj.getTipoRequest()));
-    msj = formuladorMensajes(28,numReferenciaVariables);
+
+    com.setCantidadRef(numReferenciaVariables);
+    msj = formuladorMensajes(28);
     com.sendMsj(msj.getMensaje());
     log->append(QString::fromStdString(msj.getTipoRequest()));
+
     msj = formuladorMensajes(12);
     com.sendMsj(msj.getMensaje());
     log->append(QString::fromStdString(msj.getTipoRequest()));

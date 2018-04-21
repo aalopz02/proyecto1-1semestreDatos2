@@ -35,11 +35,27 @@ private:
       * @brief instrucciones : Lista de las variables a manejar
       */
      vector<Grafo> instrucciones;
+     /**
+      * @brief contenidoCuadroRam : String que contiene los datos para el cuadro que muestra la ram en la ventana
+      */
      string contenidoCuadroRam;
 
 public:
-    string leerValor();
+    /**
+     * @brief leerValor: Función que busca el valor de una variable
+     * @param nombre : Nombre de la variablea buscar
+     * @return Valor de la variable
+     */
+    string leerValor(string nombre);
+    /**
+     * @brief getCantidadReferencias : Función para obtener la cantidad de referencias a una variable
+     * @param nombre : Nombre de la variable a buscar
+     * @return Entero con la cantidad
+     */
     int getCantidadReferencias(string nombre);
+    /**
+     * @brief setContenidoCuadroRam : Función que crea el string con el contenido del cuadro ram
+     */
     void setContenidoCuadroRam();
     /**
      * @brief memReserver1 : Instancia de la clase para reserva de memoria
@@ -65,9 +81,24 @@ public:
      * @return : Mapa de la memoria
      */
     vector<vector<string>> obtenerMapaMemoria();
+    /**
+     * @brief limpiarMemoria : Lee las referencias a las variables y si llega a -1 pone ceros en los espacios
+     */
     void limpiarMemoria();
+    /**
+     * @brief setLibreMemoria : Elimina del mapa de memoria los valores guardados para un nombre
+     * @param nombre : Nombre a eliminar
+     */
     void setLibrememoria(string nombre);
+    /**
+     * @brief setInstrucciones : Setter de la lista de instrucciones
+     * @param entrada : Lista instrucciones
+     */
     void setInstrucciones(vector<Grafo> entrada);
+    /**
+     * @brief setNumeroReferenciasVariables : Setter del número de referencias a variables
+     * @param numeroReferencias : Lista con los números de referencias
+     */
     void setNumeroReferenciasVariables(vector<vector<string>> numeroReferencias);
 
 };

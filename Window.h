@@ -28,13 +28,16 @@ public:
      * @param parent : Define que el padre de la ventana principal es nulo
      */
     explicit Window(QWidget *parent = 0);
-
     /**
      * @brief obtenerLecturaEditor : Función que retorna el contenido del editor de texto
      * @return : Contenido del editor de texto
      */
     QString obtenerLecturaEditor();
-
+    /**
+     * @brief actualizarCuadroRam : Función que llama a formuladorMensajes y al servidor para actualizar el
+     * el cuadro de vista Ram
+     */
+    void actualizarCuadroRam();
 private slots:
 
     /**
@@ -69,13 +72,6 @@ private slots:
 
 private:
     /**
-     * @brief actualizarCuadroRam : Función que llama a formuladorMensajes y al servidor para actualizar el
-     * el cuadro de vista Ram
-     * @return : string con el contenido nuevo
-     */
-    string actualizarCuadroRam();
-
-    /**
      * @brief mostrarLinea : Agrega un  efecto sobre el text edit para mostrar el recorrido del debug
      */
     void mostrarLinea();
@@ -87,13 +83,15 @@ private:
      * @brief lineaActual : Entero que contiene la línea por donde va la ejecución
      */
     int lineaActual = 0;
+    /**
+     * @brief indiceInstrucciones : Indice para moverse en la lista de instrucciones
+     */
     int indiceInstrucciones = 0;
     /**
      * @brief agregarLineas : Función que agrega números de líneas
      * @return : String con los números de línea
      */
     string agregarLineas();
-
     /**
      * @brief lectura : Variable para llamar al lector de texto del editor
      */
@@ -139,9 +137,21 @@ private:
      */
     QLabel *contenedor_Botones;
     /**
-     * @brief contenedor_Ram : Cuadro para mostrar las variables en el debug
+     * @brief contenedor_Nombres : Cuadro para mostrar el nombre de las variables
      */
-    QTextEdit *contenedor_Ram;
+    QTextEdit *contenedor_Nombres;
+    /**
+     * @brief contenedor_Dir : Cuadro para mostrar las direcciones de las variables
+     */
+    QTextEdit *contenedor_Dir;
+    /**
+     * @brief contenedor_Ref : Cuadro para contener la cantidad de referencias a una variable
+     */
+    QTextEdit *contenedor_Ref;
+    /**
+     * @brief contenedor_Valor : Cuadro para mostrar loos valores de las variables
+     */
+    QTextEdit *contenedor_Valor;
     /**
      * @brief editor : Editor donde se escribirá el código en el IDE
      */

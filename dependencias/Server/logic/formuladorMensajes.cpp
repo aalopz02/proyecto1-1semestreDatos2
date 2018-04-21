@@ -24,38 +24,14 @@ string formuladorMensajes::getTipoRequest() {
     string request;
     int codigo = stoi(mensaje.value("id").toString().toStdString());
     switch (codigo) {
-        case 11:
-            request = "Prueba conexión";
-            break;
         case 12:
             request = "Window: Actualizar información cuadro Ram";
-            break;
-        case 13:
-            request = "Window: Obtener dirección variable";
-            break;
-        case 14:
-            request = "Window: Obtener valor variable";
-            break;
-        case 15:
-            request = "Window: Definir puntero";
             break;
         case 26:
             request = "LectorTextEdit: Inicializar bloque memoria";
             break;
         case 28:
             request = "LectorTextEdit: Envío información sobre varibles";
-            break;
-        case 96:
-            request = "Server: Respuesta a petición de inicializar memoria";
-            break;
-        case 95:
-            request = "Server: Dirección de memoria para definir puntero";
-            break;
-        case 94:
-            request = "Server: Devolver valor variable";
-            break;
-        case 93:
-            request = "Server: Devolver dirección memoria de una variable";
             break;
         case 92:
             request = "Server: Datos para actualizar cuadro Ram";
